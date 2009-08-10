@@ -1,0 +1,22 @@
+= Mir Utility
+
+Standard extensions for Mir Rails apps.
+
+== Install
+
+gem install bantik-mir_utility --source http://gems.github.com
+
+-or-
+
+script/plugin install git://github.com/bantik/mir_utility.git
+  
+== Usage
+
+== Revising the Gem
+
+1) Make your changes
+2) Revise the version number in Rakefile
+3) rake manifest
+4) rake build_gemspec
+5) git push
+
