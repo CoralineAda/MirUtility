@@ -165,7 +165,14 @@ module ApplicationHelper
   end
 
   # Display CRUD icons or links, according to setting in use_crud_icons method.
-  # Use in index views like this:
+  #
+  # In application_helper.rb:
+  #
+  #   def use_crud_icons
+  #     true
+  #   end
+  #
+  # Then use in index views like this:
   #
   # <td class="crud_links"><%= crud_links(my_model, 'my_model', [:show, :edit, :delete]) -%></td>
   #

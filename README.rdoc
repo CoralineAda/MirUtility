@@ -4,11 +4,11 @@ Standard extensions for Mir Rails apps.
 
 == Install
 
-gem install bantik-mir_utility --source http://gems.github.com
+  gem install bantik-mir_utility --source http://gems.github.com
 
 -or-
 
-script/plugin install git://github.com/Bantik/MirUtility.git
+  script/plugin install git://github.com/Bantik/MirUtility.git
 
 To build from your local source:
 
@@ -22,15 +22,20 @@ To build from your local source:
   
 == Usage
 
+  See the RDocs.
+  
 == Revising the Gem
 
-1) Make your changes
+  * Make your changes
+  
+  * Revise the version number in Rakefile
+  
+  * rake manifest
+  
+  * rake build_gemspec
+  
+  * Test locally by building and installing from local source
+  
+  * Commit and push your changes
 
-2) Revise the version number in Rakefile
-
-3) rake manifest
-
-4) rake build_gemspec
-
-5) git push
-
+  

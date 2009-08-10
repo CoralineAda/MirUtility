@@ -6,7 +6,4 @@ Manifest
 mir_utility.gemspec
 Rakefile
 README.rdoc
-spec/lib/mir_utility_spec.rb
-spec/spec.opts
-spec/spec_helper.rb
-TODO.txt
+tmp/spec.html
