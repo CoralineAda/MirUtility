@@ -1,4 +1,12 @@
+CHANGELOG
+History.txt
+init.rb
 lib/mir_utility.rb
+Manifest
+mir_utility.gemspec
 Rakefile
 README.rdoc
-Manifest
+spec/lib/mir_utility_spec.rb
+spec/spec.opts
+spec/spec_helper.rb
+TODO.txt

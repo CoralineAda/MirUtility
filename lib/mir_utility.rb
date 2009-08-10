@@ -1,78 +1,14 @@
 require 'singleton'
 
-module Utility
+module MirUtility
 
   require 'soap/header/simplehandler'
 
-  STATE_CODES = {
-    'Alabama' => 'AL',
-    'Alaska' => 'AK',
-    'Arizona' => 'AZ',
-    'Arkansas' => 'AR',
-    'California' => 'CA',
-    'Colorado' => 'CO',
-    'Connecticut' => 'CT',
-    'Delaware' => 'DE',
-    'Florida' => 'FL',
-    'Georgia' => 'GA',
-    'Hawaii' => 'HI',
-    'Idaho' => 'ID',
-    'Illinois' => 'IL',
-    'Indiana' => 'IN',
-    'Iowa' => 'IA',
-    'Kansas' => 'KS',
-    'Kentucky' => 'KY',
-    'Louisiana' => 'LA',
-    'Maine' => 'ME',
-    'Maryland' => 'MD',
-    'Massachusetts' => 'MA',
-    'Michigan' => 'MI',
-    'Minnesota' => 'MN',
-    'Mississippi' => 'MS',
-    'Missouri' => 'MO',
-    'Montana' => 'MT',
-    'Nebraska' => 'NE',
-    'Nevada' => 'NV',
-    'New Hampshire' => 'NH',
-    'New Jersey' => 'NJ',
-    'New Mexico' => 'NM',
-    'New York' => 'NY',
-    'North Carolina' => 'NC',
-    'North Dakota' => 'ND',
-    'Ohio' => 'OH',
-    'Oklahoma' => 'OK',
-    'Oregon' => 'OR',
-    'Pennsylvania' => 'PA',
-    'Puerto Rico' => 'PR',
-    'Rhode Island' => 'RI',
-    'South Carolina' => 'SC',
-    'South Dakota' => 'SD',
-    'Tennessee' => 'TN',
-    'Texas' => 'TX',
-    'Utah' => 'UT',
-    'Vermont' => 'VT',
-    'Virginia' => 'VA',
-    'Washington' => 'WA',
-    'Washington DC' => 'DC',
-    'West Virginia' => 'WV',
-    'Wisconsin' => 'WI',
-    'Wyoming' => 'WY',
+  STATE_CODES = { 'Alabama' => 'AL', 'Alaska' => 'AK', 'Arizona' => 'AZ', 'Arkansas' => 'AR', 'California' => 'CA', 'Colorado' => 'CO', 'Connecticut' => 'CT', 'Delaware' => 'DE', 'Florida' => 'FL', 'Georgia' => 'GA', 'Hawaii' => 'HI', 'Idaho' => 'ID', 'Illinois' => 'IL', 'Indiana' => 'IN', 'Iowa' => 'IA', 'Kansas' => 'KS', 'Kentucky' => 'KY', 'Louisiana' => 'LA', 'Maine' => 'ME', 'Maryland' => 'MD', 'Massachusetts' => 'MA', 'Michigan' => 'MI', 'Minnesota' => 'MN', 'Mississippi' => 'MS', 'Missouri' => 'MO', 'Montana' => 'MT', 'Nebraska' => 'NE', 'Nevada' => 'NV', 'New Hampshire' => 'NH', 'New Jersey' => 'NJ', 'New Mexico' => 'NM', 'New York' => 'NY', 'North Carolina' => 'NC', 'North Dakota' => 'ND', 'Ohio' => 'OH', 'Oklahoma' => 'OK', 'Oregon' => 'OR', 'Pennsylvania' => 'PA', 'Puerto Rico' => 'PR', 'Rhode Island' => 'RI', 'South Carolina' => 'SC', 'South Dakota' => 'SD', 'Tennessee' => 'TN', 'Texas' => 'TX', 'Utah' => 'UT', 'Vermont' => 'VT', 'Virginia' => 'VA', 'Washington' => 'WA', 'Washington DC' => 'DC', 'West Virginia' => 'WV', 'Wisconsin' => 'WI', 'Wyoming' => 'WY', 'Alberta' => 'AB', 'British Columbia' => 'BC', 'Manitoba' => 'MB', 'New Brunswick' => 'NB', 'Newfoundland and Labrador' => 'NL', 'Northwest Territories' => 'NT', 'Nova Scotia' => 'NS', 'Nunavut' => 'NU', 'Ontario' => 'ON', 'Prince Edward Island' => 'PE', 'Quebec' => 'QC', 'Saskatchewan' => 'SK', 'Yukon' => 'YT' }
 
-    # canada
-    'Alberta' => 'AB',
-    'British Columbia' => 'BC',
-    'Manitoba' => 'MB',
-    'New Brunswick' => 'NB',
-    'Newfoundland and Labrador' => 'NL',
-    'Northwest Territories' => 'NT',
-    'Nova Scotia' => 'NS',
-    'Nunavut' => 'NU',
-    'Ontario' => 'ON',
-    'Prince Edward Island' => 'PE',
-    'Quebec' => 'QC',
-    'Saskatchewan' => 'SK',
-    'Yukon' => 'YT'
-  }
+  def self.canonical_url(url)
+    (url + '/').gsub(/\/\/$/,'/')
+  end
 
   # When Slug.normalize just isn't good enough...
   def self.normalize_slug(text)
@@ -82,10 +18,6 @@ module Utility
     _normalized.gsub!(/[_]+/,'_')                 # Ensure that we have no __'s
     _normalized.gsub!(/\/+/,'/')                  # Remove extra trailing slashes
     _normalized
-  end
-
-  def self.canonical_url(url)
-    (url + '/').gsub(/\/\/$/,'/')
   end
 
   def self.state_name_for(abbreviation)
@@ -107,12 +39,12 @@ module Utility
 end
 
 module ActiveRecord::Validations::ClassMethods
+
   # Overrides validates associates.
   # We do this to allow more better error messages to bubble up from associated models.
   # Adapted from thread at http://pivotallabs.com/users/nick/blog/articles/359-alias-method-chain-validates-associated-informative-error-message
   def validates_associated(*associations)
-    # These configuration lines are required if your going to use any conditionals with the validates
-    # associated - Rails 2.2.2 safe!
+    # These configuration lines are required if your going to use any conditionals with the validates associated - Rails 2.2.2 safe!
     configuration = { :message => I18n.translate('activerecord.errors.messages'), :on => :save }
     configuration.update(associations.extract_options!)
     associations.each do |association|
@@ -128,7 +60,7 @@ module ActiveRecord::Validations::ClassMethods
 end
 
 class ActiveRecord::Base
-  include Utility
+  include MirUtility
 
   #FIXME Extending AR in this way will stop working under Rails 2.3.2 for some reason.
 
@@ -136,7 +68,7 @@ class ActiveRecord::Base
   named_scope :limit, lambda { |num| { :limit => num } }
 
   # TODO: call the column_names class method on the subclass
-#  named_scope :sort_by, lambda{ |col, dir| {:order => (col.blank?) ? ( (dir.blank?) ? (Client.column_names.include?('name') ? 'name' : 'id') : h(dir) ) : "#{h(col)} #{h(dir)}"} }
+  #  named_scope :sort_by, lambda{ |col, dir| {:order => (col.blank?) ? ( (dir.blank?) ? (Client.column_names.include?('name') ? 'name' : 'id') : h(dir) ) : "#{h(col)} #{h(dir)}"} }
 
   # Returns an array of SQL conditions suitable for use with ActiveRecord's finder.
   # valid_criteria is an array of valid search fields.
@@ -220,16 +152,156 @@ class ActiveRecord::Base
 end
 
 module ApplicationHelper
-  SELECT_PROMPT = 'Select...'
 
+  SELECT_PROMPT = 'Select...'
   SELECT_PROMPT_OPTION = "<option value=''>#{SELECT_PROMPT}</option>"
+
+  def action?( expression )
+    !! ( expression.class == Regexp ? controller.action_name =~ expression : controller.action_name == expression )
+  end
+
+  def controller?( expression )
+    !! ( expression.class == Regexp ? controller.controller_name =~ expression : controller.controller_name == expression )
+  end
+
+  # Display CRUD icons or links, according to setting in use_crud_icons method.
+  # Use in index views like this:
+  #
+  # <td class="crud_links"><%= crud_links(my_model, 'my_model', [:show, :edit, :delete]) -%></td>
+  #
+  def crud_links(model, instance_name, actions, args={})
+    _html = ""
+    _options = args.keys.empty? ? '' : ", #{args.map{|k,v| ":#{k} => #{v}"}}"
+    
+    if use_crud_icons 
+      if actions.include?(:show)
+        _html << eval("link_to image_tag('/images/icons/view.png', :class => 'crud_icon'), model, :title => 'View'#{_options}")
+      end
+      if actions.include?(:edit)
+        _html << eval("link_to image_tag('/images/icons/edit.png', :class => 'crud_icon'), edit_#{instance_name}_path(model), :title => 'Edit'#{_options}")
+      end
+      if actions.include?(:delete)
+        _html << eval("link_to image_tag('/images/icons/delete.png', :class => 'crud_icon'), model, :confirm => 'Are you sure? This action cannot be undone.', :method => :delete, :title => 'Delete'#{_options}")
+      end
+    else
+      if actions.include?(:show)
+        _html << eval("link_to 'View', model, :title => 'View', :class => 'crud_link'#{_options}")
+      end
+      if actions.include?(:edit)
+        _html << eval("link_to 'Edit', edit_#{instance_name}_path(model), :title => 'Edit', :class => 'crud_link'#{_options}")
+      end
+      if actions.include?(:delete)
+        _html << eval("link_to 'Delete', model, :confirm => 'Are you sure? This action cannot be undone.', :method => :delete, :title => 'Delete', :class => 'crud_link'#{_options}")
+      end
+    end
+    _html
+  end
+
+  # Display CRUD icons or links, according to setting in use_crud_icons method. 
+  # This method works with nested resources.
+  # Use in index views like this:
+  #
+  # <td class="crud_links"><%= crud_links(@my_model, my_nested_model, 'my_model', 'my_nested_model', [:show, :edit, :delete]) -%></td>
+  #
+  def crud_links_for_nested_resource(model, nested_model, model_instance_name, nested_model_instance_name, actions, args={})
+    _html = ""
+    if use_crud_icons 
+      if actions.include?(:show)
+        _html << eval("link_to image_tag('/images/icons/view.png', :class => 'crud_icon'), #{model_instance_name}_#{nested_model_instance_name}_path(model, nested_model), :title => 'View'")
+      end
+
+      if actions.include?(:edit)
+        _html << eval("link_to image_tag('/images/icons/edit.png', :class => 'crud_icon'), edit_#{model_instance_name}_#{nested_model_instance_name}_path(model, nested_model), :title => 'Edit'")
+      end
+
+      if actions.include?(:delete)
+        _html << eval("link_to image_tag('/images/icons/delete.png', :class => 'crud_icon'), #{model_instance_name}_#{nested_model_instance_name}_path(model, nested_model), :method => :delete, :confirm => 'Are you sure? This action cannot be undone.', :title => 'Delete'")
+      end
+    end
+    _html
+  end
+
+  # DRY way to return a proper legend tag to compliant browsers, and something that doesn't break in IE
+  def legend_tag(text)
+    _html = ""
+    _html << %{<legend>#{text}</legend>}
+    _html << %{<!--[if IE]><div class="faux_legend">#{text}</div><![endif]-->\r}
+    _html
+  end
+
+  def models_for_select( models, label = 'name' )
+    models.map{ |m| [m[label], m.id] }.sort_by{ |e| e[0] }
+  end
 
   def options_for_array( a, selected = nil )
     SELECT_PROMPT_OPTION + a.map{ |_e| _flag = _e[0].to_s == selected ? 'selected="1"' : ''; _e.is_a?(Array) ? "<option value=\"#{_e[0]}\" #{_flag}>#{_e[1]}</option>" : "<option>#{_e}</option>" }.to_s
   end
 
-  def models_for_select( models, label = 'name' )
-    models.map{ |m| [m[label], m.id] }.sort_by{ |e| e[0] }
+  # Create a link that is opaque to search engine spiders.
+  def obfuscated_link_to(path, image, label, args={})
+    _html = %{<form action="#{path}" method="get" class="obfuscated_link">}
+    _html << %{ <input alt="#{label}" border="0" src="#{image}" type="image" />}
+    args.each{ |k,v| _html << %{  <input id="#{k.to_s}" name="#{k}" type="hidden" value="#{v}" />} }
+    _html << %{</form>}
+    _html
+  end
+  
+  # Wraps the given HTML in Rails' default style to highlight validation errors, if any.
+  def required_field_helper( model, element, html )
+    if model && ! model.errors.empty? && element.is_required
+      return content_tag( :div, html, :class => 'fieldWithErrors' )
+    else
+      return html
+    end
+  end
+
+  # Use on index pages to create dropdown list of filtering criteria.
+  # Populate the filter list using a constant in the model corresponding to named scopes.
+  #
+  # Usage:
+  #
+  # - item.rb:
+  #
+  #     named_scope :active,   :conditions => { :is_active => true }
+  #     named_scope :inactive, :conditions => { :is_active => false }
+  #
+  #     FILTERS = [
+  #       {:scope => "all",       :label => "All"},
+  #       {:scope => "active",    :label => "Active Only"},
+  #       {:scope => "inactive",  :label => "Inactive Only"}
+  #     ]
+  #
+  # - items/index.html.erb:
+  #
+  #     <%= select_tag_for_filter("items", @filters, params) -%>
+  #
+  # - items_controller.rb:
+  #
+  #     def index
+  #       @filters = Item::FILTERS
+  #       if params[:show] && params[:show] != "all" && @filters.collect{|f| f[:scope]}.include?(params[:show])
+  #         @items = eval("@items.#{params[:show]}.order_by(params[:by], params[:dir])")
+  #       else
+  #         @items = @items.order_by(params[:by], params[:dir])
+  #       end
+  #       ...
+  #     end
+  #
+  def select_tag_for_filter(model, nvpairs, params)
+    return unless model && nvpairs && ! nvpairs.empty?
+    options = { :query => params[:query] }
+    _url = url_for(eval("#{model}_url(options)"))
+    _html = %{<label for="show">Show:</label><br />}
+    _html << %{<select name="show" id="show" onchange="window.location='#{_url}' + '?show=' + this.value">}
+    nvpairs.each do |pair|
+      _html << %{<option value="#{pair[:scope]}"}
+      if params[:show] == pair[:scope] || ((params[:show].nil? || params[:show].empty?) && pair[:scope] == "all")
+        _html << %{ selected="selected"}
+      end
+      _html << %{>#{pair[:label]}}
+      _html << %{</option>}
+    end
+    _html << %{</select>}
   end
 
   # Returns a link_to tag with sorting parameters that can be used with ActiveRecord.order_by.
@@ -273,6 +345,68 @@ module ApplicationHelper
     _link = model.is_a?(Symbol) ? eval("#{model}_url(options)") : "/#{model}?#{options.to_params}"
     link_to(field_name, _link, html_options)
   end
+
+  def tag_for_collapsible_row(obj, params)
+    _html = ""
+    if obj && obj.respond_to?(:parent) && obj.parent
+      _html << %{<tr class="#{obj.class.name.downcase}_#{obj.parent.id} #{params[:class]}" style="display: none; #{params[:style]}">}
+    else
+      _html << %{<tr class="#{params[:class]}" style="#{params[:style]}">}
+    end
+    _html
+  end
+  
+  def tag_for_collapsible_row_control(obj)
+    _base_id = "#{obj.class.name.downcase}_#{obj.id}"
+    _html = %{<div id="hide_or_show_#{_base_id}" class="show_link" style="background-color: #999999; border: 1px solid #999999;" onclick="javascript:hide_or_show('#{_base_id}');"></div>}
+  end
+  
+  # Create a set of tags for displaying a field label with inline help.
+  # Field label text is appended with a ? icon, which responds to a click
+  # by showing or hiding the provided help text.
+  #
+  # Sample usage:
+  #
+  #   <%= tag_for_label_with_inline_help 'Relative Frequency', 'rel_frequency', 'Relative frequency of search traffic for this keyword across multiple search engines, as measured by WordTracker.' %>
+  #
+  # Yields:
+  #
+  #   <label for="rel_frequency">Relative Frequency: <%= image_tag "/images/help_icon.png", :onclick => "$('rel_frequency_help').toggle();", :class => 'inline_icon' %></label><br />
+  #   <div class="inline_help" id="rel_frequency_help" style="display: none;">
+  #     <p>Relative frequency of search traffic for this keyword across multiple search engines, as measured by WordTracker.</p>
+  #   </div>
+  def tag_for_label_with_inline_help( label_text, field_id, help_text )
+    _html = ""
+    _html << %{<label for="#{field_id}">#{label_text}: }
+    _html << image_tag("/images/icons/help_icon.png", :onclick => "$('#{field_id}_help').toggle();", :class => 'inline_icon')
+    _html << %{</label><br />}
+    _html << %{<div class="inline_help" id="#{field_id}_help" style="display: none;">}
+    _html << %{<p>#{help_text}</p>}
+    _html << %{</div>}
+    _html
+  end
+
+  # Create a set of tags for displaying a field label followed by instructions.
+  # The instructions are displayed on a new line following the field label.
+  #
+  # Usage:
+  #
+  #   <%= tag_for_label_with_instructions 'Status', 'is_active', 'Only active widgets will be visible to the public.' %>
+  #
+  # Yields:
+  #
+  #   <label for="is_active">
+  #     Status<br />
+  #     <span class="instructions">Only active widgets will be visible to the public.</span>
+  #   <label><br />
+  def tag_for_label_with_instructions( label_text, field_id, instructions )
+    _html = ""
+    _html << %{<label for="#{field_id}">#{label_text}: }
+    _html << %{<span class="instructions">#{instructions}</span>}
+    _html << %{</label><br />}
+    _html
+  end
+  
 end
 
 class Array
@@ -281,7 +415,6 @@ class Array
   end
 end
 
-# From Ruby Cookbook
 module Enumerable
   def to_histogram
     inject(Hash.new(0)) { |h,x| h[x] += 1; h }
@@ -289,7 +422,7 @@ module Enumerable
 end
 
 class Fixnum
-  include Utility
+  include MirUtility
 
   # Given a number of seconds, convert into a string like HH:MM:SS
   def to_hrs_mins_secs
@@ -300,7 +433,7 @@ class Fixnum
 end
 
 class Float
-  include Utility
+  include MirUtility
   def to_nearest_tenth
     sprintf("%.1f", self).to_f
   end
@@ -335,14 +468,6 @@ class Hash
     params
   end
 
- def self.from_array(array = [])
-  h = Hash.new
-  array.size.times do |t|
-   h[t] = array[t]
-  end
-  h
- end
-
   def to_sql( operator = 'AND' )
     _sql = self.keys.map do |_key|
       _value = self[_key].is_a?(Fixnum) ? self[_key] : "'#{self[_key]}'"
@@ -350,6 +475,13 @@ class Hash
     end
     _sql * " #{operator} "
   end
+  
+  def self.from_array(array = [])
+    h = Hash.new
+    array.size.times{ |t| h[t] = array[t] }
+    h
+  end
+
 end
 
 # Helper class for SOAP headers.
@@ -368,7 +500,7 @@ end
 class String
 
   # Bring in support for view helpers
-  include Utility::CoreExtensions::String::NumberHelper
+  include MirUtility::CoreExtensions::String::NumberHelper
 
   # General methods
 

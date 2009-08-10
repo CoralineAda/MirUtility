@@ -1,0 +1,11 @@
+TODO
+
+Publish to GitHub
+
+  - Build a gemspec file
+    
+    rake build_gemspec
+    then commit again
+    
+  
+  

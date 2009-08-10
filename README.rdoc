@@ -8,7 +8,7 @@ gem install bantik-mir_utility --source http://gems.github.com
 
 -or-
 
-script/plugin install git://github.com/bantik/mir_utility.git
+script/plugin install git://github.com/Bantik/MirUtility.git
   
 == Usage
 
