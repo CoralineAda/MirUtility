@@ -2,14 +2,16 @@
 
 Standard extensions for Mir Rails apps.
 
+== Prerequisites
+
+  sudo gem install echoe
+
 == Install
 
-  gem install bantik-mir_utility --source http://gems.github.com
+Clone the git repo:
 
--or-
-
-  script/plugin install git://github.com/Bantik/MirUtility.git
-
+  git clone git@github.com:Bantik/MirUtility.git
+  
 To build from your local source:
 
   rake manifest

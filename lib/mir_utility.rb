@@ -1,8 +1,8 @@
-require 'singleton'
+#require 'singleton'
 
 module MirUtility
 
-  require 'soap/header/simplehandler'
+#  require 'soap/header/simplehandler'
 
   STATE_CODES = { 'Alabama' => 'AL', 'Alaska' => 'AK', 'Arizona' => 'AZ', 'Arkansas' => 'AR', 'California' => 'CA', 'Colorado' => 'CO', 'Connecticut' => 'CT', 'Delaware' => 'DE', 'Florida' => 'FL', 'Georgia' => 'GA', 'Hawaii' => 'HI', 'Idaho' => 'ID', 'Illinois' => 'IL', 'Indiana' => 'IN', 'Iowa' => 'IA', 'Kansas' => 'KS', 'Kentucky' => 'KY', 'Louisiana' => 'LA', 'Maine' => 'ME', 'Maryland' => 'MD', 'Massachusetts' => 'MA', 'Michigan' => 'MI', 'Minnesota' => 'MN', 'Mississippi' => 'MS', 'Missouri' => 'MO', 'Montana' => 'MT', 'Nebraska' => 'NE', 'Nevada' => 'NV', 'New Hampshire' => 'NH', 'New Jersey' => 'NJ', 'New Mexico' => 'NM', 'New York' => 'NY', 'North Carolina' => 'NC', 'North Dakota' => 'ND', 'Ohio' => 'OH', 'Oklahoma' => 'OK', 'Oregon' => 'OR', 'Pennsylvania' => 'PA', 'Puerto Rico' => 'PR', 'Rhode Island' => 'RI', 'South Carolina' => 'SC', 'South Dakota' => 'SD', 'Tennessee' => 'TN', 'Texas' => 'TX', 'Utah' => 'UT', 'Vermont' => 'VT', 'Virginia' => 'VA', 'Washington' => 'WA', 'Washington DC' => 'DC', 'West Virginia' => 'WV', 'Wisconsin' => 'WI', 'Wyoming' => 'WY', 'Alberta' => 'AB', 'British Columbia' => 'BC', 'Manitoba' => 'MB', 'New Brunswick' => 'NB', 'Newfoundland and Labrador' => 'NL', 'Northwest Territories' => 'NT', 'Nova Scotia' => 'NS', 'Nunavut' => 'NU', 'Ontario' => 'ON', 'Prince Edward Island' => 'PE', 'Quebec' => 'QC', 'Saskatchewan' => 'SK', 'Yukon' => 'YT' }
 
@@ -234,6 +234,14 @@ module ApplicationHelper
     _html << %{<legend>#{text}</legend>}
     _html << %{<!--[if IE]><div class="faux_legend">#{text}</div><![endif]-->\r}
     _html
+  end
+
+  def meta_description(content=nil)
+    content_for(:meta_description) { content } unless content.blank?
+  end
+
+  def meta_keywords(content=nil)
+    content_for(:meta_keywords) { content } unless content.blank?
   end
 
   def models_for_select( models, label = 'name' )
@@ -492,17 +500,17 @@ class Hash
 end
 
 # Helper class for SOAP headers.
-class Header < SOAP::Header::SimpleHandler
-	def initialize(tag, value)
-		super(XSD::QName.new(nil, tag))
-		@tag = tag
-		@value = value
-	end
-
-	def on_simple_outbound
-		@value
-	end
-end
+# class Header < SOAP::Header::SimpleHandler
+# 	def initialize(tag, value)
+# 		super(XSD::QName.new(nil, tag))
+# 		@tag = tag
+# 		@value = value
+# 	end
+# 
+# 	def on_simple_outbound
+# 		@value
+# 	end
+# end
 
 class String
 
@@ -596,7 +604,7 @@ class String
   end
 end
 
-class StringHelperSingleton
-  include Singleton
-  include ActionView::Helpers::NumberHelper
-end
+# class StringHelperSingleton
+#   include Singleton
+#   include ActionView::Helpers::NumberHelper
+# end
