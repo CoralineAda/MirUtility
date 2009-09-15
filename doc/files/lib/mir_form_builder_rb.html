@@ -56,7 +56,7 @@
     </tr>
     <tr class="top-aligned-row">
       <td><strong>Last Update:</strong></td>
-      <td>Tue Sep 15 16:41:46 -0500 2009</td>
+      <td>Tue Sep 15 16:58:31 -0500 2009</td>
     </tr>
     </table>
   </div>
@@ -69,9 +69,8 @@
   <div id="contextContent">
 
     <div id="description">
-      <p>
-Using the Mir Form Builder:
-</p>
+      <h2>Configuration</h2>
+<h3>Configure your application to default to the custom form builder</h3>
 <p>
 In app/controllers/application_controller.rb:
 </p>
@@ -79,12 +78,8 @@ In app/controllers/application_controller.rb:
   class ApplicationController &lt; ActionController::Base
     ActionView::Base.default_form_builder = MirFormBuilder
 </pre>
-<p>
-In your view:
-</p>
-<p>
-Default form field with label:
-</p>
+<h2>Usage</h2>
+<h3>Default form field with label:</h3>
 <pre>
   &lt;%= f.text_field :last_name -%&gt;
 </pre>
@@ -92,11 +87,12 @@ Default form field with label:
 Returns:
 </p>
 <pre>
-  &lt;fieldset&gt;&lt;label for=&quot;user_last_name&quot;&gt;Last Name&lt;/label&gt;&lt;br /&gt;&lt;input id=&quot;user_last_name&quot; name=&quot;user[last_name]&quot; size=&quot;30&quot; type=&quot;text&quot; /&gt;&lt;/fieldset&gt;
+  &lt;fieldset&gt;
+    &lt;label for=&quot;user_last_name&quot;&gt;Last Name&lt;/label&gt;&lt;br /&gt;
+    &lt;input id=&quot;user_last_name&quot; name=&quot;user[last_name]&quot; size=&quot;30&quot; type=&quot;text&quot; /&gt;
+  &lt;/fieldset&gt;
 </pre>
-<p>
-Form field with custom label:
-</p>
+<h3>Form field with custom label:</h3>
 <pre>
   &lt;%= f.text_field :first_name, :label =&gt; 'Custom' -%&gt;
 </pre>
@@ -104,37 +100,48 @@ Form field with custom label:
 Returns:
 </p>
 <pre>
-  &lt;fieldset&gt;&lt;label for=&quot;user_first_name&quot;&gt;Custom&lt;/label&gt;&lt;br /&gt;&lt;input id=&quot;user_first_name&quot; label=&quot;Custom&quot; name=&quot;user[first_name]&quot; size=&quot;30&quot; type=&quot;text&quot; /&gt;&lt;/fieldset&gt;
+  &lt;fieldset&gt;
+    &lt;label for=&quot;user_first_name&quot;&gt;Custom&lt;/label&gt;&lt;br /&gt;
+    &lt;input id=&quot;user_first_name&quot; name=&quot;user[first_name]&quot; size=&quot;30&quot; type=&quot;text&quot; /&gt;
+  &lt;/fieldset&gt;
 </pre>
-<p>
-Form field with inline help (? icon which reveals help content when
-clicked):
-</p>
+<h3>Form field with inline help (? icon which reveals help content when clicked):</h3>
 <pre>
-  &lt;%= f.password_field :password, :help =&gt; 'Here are some detailed instructions on valid passwords.' %&gt;
+  &lt;%= f.password_field :password %&gt;
 </pre>
 <p>
 Returns:
 </p>
 <pre>
-  &lt;fieldset&gt;&lt;label for=&quot;password&quot;&gt;Password: &lt;img src=&quot;/images/icons/help_icon.png&quot; onclick=&quot;$('password_help').toggle();&quot; class='inline_icon' /&gt;&lt;/label&gt;&lt;br /&gt;&lt;div class=&quot;inline_help&quot; id=&quot;password_help&quot; style=&quot;display: none;&quot;&gt;&lt;p&gt;Here are some detailed instructions on valid passwords.&lt;/p&gt;&lt;/div&gt;&lt;input help=&quot;Here are some detailed instructions on valid passwords.&quot; id=&quot;user_password&quot; name=&quot;user[password]&quot; size=&quot;30&quot; type=&quot;password&quot; /&gt;&lt;/fieldset&gt;
+  &lt;fieldset&gt;
+    &lt;label for=&quot;password&quot;&gt;Password: &lt;img src=&quot;/images/icons/help_icon.png&quot;
+    onclick=&quot;$('password_help').toggle();&quot; class='inline_icon' /&gt;&lt;/label&gt;&lt;br /&gt;
+    &lt;div class=&quot;inline_help&quot; id=&quot;password_help&quot; style=&quot;display: none;&quot;&gt;
+      &lt;p&gt;Here are some detailed instructions on valid passwords.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;input id=&quot;user_password&quot; name=&quot;user[password]&quot; size=&quot;30&quot; type=&quot;password&quot; /&gt;
+  &lt;/fieldset&gt;
 </pre>
-<p>
-Form field with instructions (show immediately below the label):
-</p>
+<h3>Form field with instructions (show immediately below the label):</h3>
 <pre>
-  &lt;%= f.password_field :password_confirmation, :label =&gt; 'Confirm Password', :instructions =&gt; 'Enter your password again to confirm.' %&gt;
+  &lt;%= f.password_field :password_confirmation %&gt;
 </pre>
 <p>
 Returns:
 </p>
 <pre>
-  &lt;fieldset&gt;&lt;label for=&quot;password_confirmation&quot;&gt;Confirm Password: &lt;span class=&quot;instructions&quot;&gt;Enter your password again to confirm.&lt;/span&gt;&lt;/label&gt;&lt;br /&gt;&lt;input id=&quot;user_password_confirmation&quot; instructions=&quot;Enter your password again to confirm.&quot; label=&quot;Confirm Password&quot; name=&quot;user[password_confirmation]&quot; size=&quot;30&quot; type=&quot;password&quot; /&gt;&lt;/fieldset&gt;
+  &lt;fieldset&gt;
+    &lt;label for=&quot;password_confirmation&quot;&gt;
+      Confirm Password:
+      &lt;span class=&quot;instructions&quot;&gt;Enter your password again to confirm.&lt;/span&gt;
+    &lt;/label&gt;&lt;br /&gt;
+    &lt;input id=&quot;user_password_confirmation&quot; name=&quot;user[password_confirmation]&quot; size=&quot;30&quot; type=&quot;password&quot; /&gt;
+  &lt;/fieldset&gt;
 </pre>
+<h3>Check box with label in addition to checkbox value text</h3>
 <p>
-Check box with label in addition to checkbox value text (e.g.
-&#8216;Foo&#8217; appears above the checkbox, and &#8216;Something&#8217;
-next to it):
+(E.g. &#8216;Foo&#8217; appears above the checkbox, and
+&#8216;Something&#8217; next to it):
 </p>
 <pre>
   &lt;%= f.check_box :foo, :inline_label =&gt; 'Something' -%&gt;
@@ -143,11 +150,14 @@ next to it):
 Returns:
 </p>
 <pre>
-  &lt;fieldset&gt;&lt;label for=&quot;user_foo&quot;&gt;Foo&lt;/label&gt;&lt;br /&gt;&lt;input name=&quot;user[foo]&quot; type=&quot;hidden&quot; value=&quot;0&quot; /&gt;&lt;input id=&quot;user_foo&quot; inline_label=&quot;Something&quot; name=&quot;user[foo]&quot; type=&quot;checkbox&quot; value=&quot;1&quot; /&gt;&lt;label class=&quot;inline&quot; for=&quot;user_foo&quot;&gt;Something&lt;/label&gt;&lt;br style='clear: both;'/&gt;&lt;br /&gt;&lt;/fieldset&gt;
+  &lt;fieldset&gt;
+    &lt;label for=&quot;user_foo&quot;&gt;Foo&lt;/label&gt;&lt;br /&gt;
+    &lt;input name=&quot;user[foo]&quot; type=&quot;hidden&quot; value=&quot;0&quot; /&gt;
+    &lt;input id=&quot;user_foo&quot; name=&quot;user[foo]&quot; type=&quot;checkbox&quot; value=&quot;1&quot; /&gt;
+    &lt;label class=&quot;inline&quot; for=&quot;user_foo&quot;&gt;Something&lt;/label&gt;&lt;br style='clear: both;'/&gt;&lt;br /&gt;
+  &lt;/fieldset&gt;
 </pre>
-<p>
-Troubleshooting
-</p>
+<h2>Troubleshooting</h2>
 <p>
 If you&#8216;re seeing double form labels, it&#8216;s because you still
 have &lt;%= label -%&gt; elements in your forms.
