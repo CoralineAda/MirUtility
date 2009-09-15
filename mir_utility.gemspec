@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.date = %q{2009-09-15}
   s.description = %q{Standard extensions for Mir Rails apps.}
   s.email = %q{corey@seologic.com}
-  s.extra_rdoc_files = ["CHANGELOG", "lib/mir_utility.rb", "README.rdoc"]
-  s.files = ["CHANGELOG", "History.txt", "init.rb", "lib/mir_utility.rb", "Manifest", "mir_utility.gemspec", "Rakefile", "README.rdoc", "tmp/spec.html"]
+  s.extra_rdoc_files = ["CHANGELOG", "lib/mir_form_builder.rb", "lib/mir_utility.rb", "README.rdoc"]
+  s.files = ["CHANGELOG", "History.txt", "init.rb", "lib/mir_form_builder.rb", "lib/mir_utility.rb", "Manifest", "mir_utility.gemspec", "Rakefile", "README.rdoc", "tmp/spec.html"]
   s.homepage = %q{http://github.com/bantik/mir_utility}
   s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "Mir_utility", "--main", "README.rdoc"]
   s.require_paths = ["lib"]
