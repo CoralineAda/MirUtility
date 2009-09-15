@@ -393,7 +393,7 @@ module ApplicationHelper
   def tag_for_label_with_inline_help( label_text, field_id, help_text )
     _html = ""
     _html << %{<label for="#{field_id}">#{label_text}: }
-    _html << image_tag("/images/icons/help_icon.png", :onclick => "$('#{field_id}_help').toggle();", :class => 'inline_icon')
+    _html << %{<img src="/images/icons/help_icon.png" onclick="$('#{field_id}_help').toggle();" class='inline_icon' />}
     _html << %{</label><br />}
     _html << %{<div class="inline_help" id="#{field_id}_help" style="display: none;">}
     _html << %{<p>#{help_text}</p>}
