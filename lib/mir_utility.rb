@@ -331,7 +331,7 @@ module ApplicationHelper
   #
   # You can override the link's label by adding a labels hash to your params in the controller:
   #   params[:labels] = {'user_id' => 'User'}
-  def sort_link(model, field, params)
+  def sort_link(model, field, params, html_options={})
     if (field.to_sym == params[:by] || field == params[:by]) && params[:dir] == "ASC"
       classname = "arrow-asc"
       dir = "DESC"
@@ -352,8 +352,8 @@ module ApplicationHelper
     options[:show] = params[:show] unless params[:show].blank? || params[:show] == 'all'
 
     html_options = {
-      :class => classname,
-      :style => "color: white; font-weight: #{params[:by] == field ? "bold" : "normal"}",
+      :class => "#{classname} #{html_options[:class]}",
+      :style => "color: white; font-weight: #{params[:by] == field ? "bold" : "normal"}; #{html_options[:style]}",
       :title => "Sort by this field",
     }
 

@@ -99,7 +99,7 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
     
     define_method(name) do |field, *args|
       options = args.last.is_a?(Hash) ? args.pop : {}
-      return super if ! options[:label].nil? && options[:label] == false
+      return super if ! options[:label].nil? && options[:label] == false && name != 'check_box'
 
       _label_text = options[:label] || field.to_s.humanize.capitalize_words
       if options[:instructions]
@@ -113,7 +113,11 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
       options.delete(:instructions)
       options.delete(:help)
       options.delete(:inline_label)
-      @template.content_tag(:fieldset, _label + super + _inline_label)
+      if options[:label] == false && name == 'check_box'
+        return @template.content_tag(:fieldset, super + _inline_label)
+      else
+        return @template.content_tag(:fieldset, _label + super + _inline_label)
+      end
     end
   
   end
