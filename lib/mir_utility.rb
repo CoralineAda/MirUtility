@@ -229,10 +229,12 @@ module ApplicationHelper
   end
 
   # DRY way to return a proper legend tag to compliant browsers, and something that doesn't break in IE
-  def legend_tag(text)
+  def legend_tag(text, args={})
     _html = ""
-    _html << %{<legend>#{text}</legend>}
-    _html << %{<!--[if IE]><div class="faux_legend">#{text}</div><![endif]-->\r}
+    _html << %{<legend id="#{args[:id]}" class="#{args[:class]}">#{text}</legend>}
+    _html << %{<!--[if IE]><div id="#{args[:id]}" class="faux_legend">#{text}</div><![endif]-->\r}
+    _html.gsub!(/ id=""/,'')
+    _html.gsub!(/ class=""/,'')
     _html
   end
 

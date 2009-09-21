@@ -302,7 +302,7 @@ my_nested_model, &#8216;my_model&#8217;, &#8216;my_nested_model&#8217;,
 
         <div class="method-heading">
           <a href="#M000027" class="method-signature">
-          <span class="method-name">legend_tag</span><span class="method-args">(text)</span>
+          <span class="method-name">legend_tag</span><span class="method-args">(text, args={})</span>
           </a>
         </div>
       
@@ -316,12 +316,14 @@ that doesn&#8216;t break in IE
           <div class="method-source-code" id="M000027-source">
 <pre>
      <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 232</span>
-232:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">legend_tag</span>(<span class="ruby-identifier">text</span>)
+232:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">legend_tag</span>(<span class="ruby-identifier">text</span>, <span class="ruby-identifier">args</span>={})
 233:     <span class="ruby-identifier">_html</span> = <span class="ruby-value str">&quot;&quot;</span>
-234:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;legend&gt;#{text}&lt;/legend&gt;}</span>
-235:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;!--[if IE]&gt;&lt;div class=&quot;faux_legend&quot;&gt;#{text}&lt;/div&gt;&lt;![endif]--&gt;\r}</span>
-236:     <span class="ruby-identifier">_html</span>
-237:   <span class="ruby-keyword kw">end</span>
+234:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;legend id=&quot;#{args[:id]}&quot; class=&quot;#{args[:class]}&quot;&gt;#{text}&lt;/legend&gt;}</span>
+235:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;!--[if IE]&gt;&lt;div id=&quot;#{args[:id]}&quot; class=&quot;faux_legend&quot;&gt;#{text}&lt;/div&gt;&lt;![endif]--&gt;\r}</span>
+236:     <span class="ruby-identifier">_html</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp re">/ id=&quot;&quot;/</span>,<span class="ruby-value str">''</span>)
+237:     <span class="ruby-identifier">_html</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp re">/ class=&quot;&quot;/</span>,<span class="ruby-value str">''</span>)
+238:     <span class="ruby-identifier">_html</span>
+239:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -341,10 +343,10 @@ that doesn&#8216;t break in IE
             onclick="toggleCode('M000028-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000028-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 239</span>
-239:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">meta_description</span>(<span class="ruby-identifier">content</span>=<span class="ruby-keyword kw">nil</span>)
-240:     <span class="ruby-identifier">content_for</span>(<span class="ruby-identifier">:meta_description</span>) { <span class="ruby-identifier">content</span> } <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">content</span>.<span class="ruby-identifier">blank?</span>
-241:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 241</span>
+241:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">meta_description</span>(<span class="ruby-identifier">content</span>=<span class="ruby-keyword kw">nil</span>)
+242:     <span class="ruby-identifier">content_for</span>(<span class="ruby-identifier">:meta_description</span>) { <span class="ruby-identifier">content</span> } <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">content</span>.<span class="ruby-identifier">blank?</span>
+243:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -364,10 +366,10 @@ that doesn&#8216;t break in IE
             onclick="toggleCode('M000029-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000029-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 243</span>
-243:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">meta_keywords</span>(<span class="ruby-identifier">content</span>=<span class="ruby-keyword kw">nil</span>)
-244:     <span class="ruby-identifier">content_for</span>(<span class="ruby-identifier">:meta_keywords</span>) { <span class="ruby-identifier">content</span> } <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">content</span>.<span class="ruby-identifier">blank?</span>
-245:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 245</span>
+245:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">meta_keywords</span>(<span class="ruby-identifier">content</span>=<span class="ruby-keyword kw">nil</span>)
+246:     <span class="ruby-identifier">content_for</span>(<span class="ruby-identifier">:meta_keywords</span>) { <span class="ruby-identifier">content</span> } <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">content</span>.<span class="ruby-identifier">blank?</span>
+247:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -387,10 +389,10 @@ that doesn&#8216;t break in IE
             onclick="toggleCode('M000030-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000030-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 247</span>
-247:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">models_for_select</span>( <span class="ruby-identifier">models</span>, <span class="ruby-identifier">label</span> = <span class="ruby-value str">'name'</span> )
-248:     <span class="ruby-identifier">models</span>.<span class="ruby-identifier">map</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">m</span><span class="ruby-operator">|</span> [<span class="ruby-identifier">m</span>[<span class="ruby-identifier">label</span>], <span class="ruby-identifier">m</span>.<span class="ruby-identifier">id</span>] }.<span class="ruby-identifier">sort_by</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-identifier">e</span>[<span class="ruby-value">0</span>] }
-249:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 249</span>
+249:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">models_for_select</span>( <span class="ruby-identifier">models</span>, <span class="ruby-identifier">label</span> = <span class="ruby-value str">'name'</span> )
+250:     <span class="ruby-identifier">models</span>.<span class="ruby-identifier">map</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">m</span><span class="ruby-operator">|</span> [<span class="ruby-identifier">m</span>[<span class="ruby-identifier">label</span>], <span class="ruby-identifier">m</span>.<span class="ruby-identifier">id</span>] }.<span class="ruby-identifier">sort_by</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-identifier">e</span>[<span class="ruby-value">0</span>] }
+251:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -413,14 +415,14 @@ Create a link that is opaque to search engine spiders.
             onclick="toggleCode('M000032-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000032-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 256</span>
-256:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">obfuscated_link_to</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">image</span>, <span class="ruby-identifier">label</span>, <span class="ruby-identifier">args</span>={})
-257:     <span class="ruby-identifier">_html</span> = <span class="ruby-node">%{&lt;form action=&quot;#{path}&quot; method=&quot;get&quot; class=&quot;obfuscated_link&quot;&gt;}</span>
-258:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{ &lt;input alt=&quot;#{label}&quot; border=&quot;0&quot; src=&quot;#{image}&quot; type=&quot;image&quot; /&gt;}</span>
-259:     <span class="ruby-identifier">args</span>.<span class="ruby-identifier">each</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{  &lt;input id=&quot;#{k.to_s}&quot; name=&quot;#{k}&quot; type=&quot;hidden&quot; value=&quot;#{v}&quot; /&gt;}</span> }
-260:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">%{&lt;/form&gt;}</span>
-261:     <span class="ruby-identifier">_html</span>
-262:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 258</span>
+258:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">obfuscated_link_to</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">image</span>, <span class="ruby-identifier">label</span>, <span class="ruby-identifier">args</span>={})
+259:     <span class="ruby-identifier">_html</span> = <span class="ruby-node">%{&lt;form action=&quot;#{path}&quot; method=&quot;get&quot; class=&quot;obfuscated_link&quot;&gt;}</span>
+260:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{ &lt;input alt=&quot;#{label}&quot; border=&quot;0&quot; src=&quot;#{image}&quot; type=&quot;image&quot; /&gt;}</span>
+261:     <span class="ruby-identifier">args</span>.<span class="ruby-identifier">each</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{  &lt;input id=&quot;#{k.to_s}&quot; name=&quot;#{k}&quot; type=&quot;hidden&quot; value=&quot;#{v}&quot; /&gt;}</span> }
+262:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">%{&lt;/form&gt;}</span>
+263:     <span class="ruby-identifier">_html</span>
+264:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -440,10 +442,10 @@ Create a link that is opaque to search engine spiders.
             onclick="toggleCode('M000031-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000031-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 251</span>
-251:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">options_for_array</span>( <span class="ruby-identifier">a</span>, <span class="ruby-identifier">selected</span> = <span class="ruby-keyword kw">nil</span> )
-252:     <span class="ruby-constant">SELECT_PROMPT_OPTION</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">map</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">_e</span><span class="ruby-operator">|</span> <span class="ruby-identifier">_flag</span> = <span class="ruby-identifier">_e</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">to_s</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">selected</span> <span class="ruby-value">? </span><span class="ruby-value str">'selected=&quot;1&quot;'</span> <span class="ruby-operator">:</span> <span class="ruby-value str">''</span>; <span class="ruby-identifier">_e</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>) <span class="ruby-operator">?</span> <span class="ruby-node">&quot;&lt;option value=\&quot;#{_e[0]}\&quot; #{_flag}&gt;#{_e[1]}&lt;/option&gt;&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-node">&quot;&lt;option&gt;#{_e}&lt;/option&gt;&quot;</span> }.<span class="ruby-identifier">to_s</span>
-253:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 253</span>
+253:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">options_for_array</span>( <span class="ruby-identifier">a</span>, <span class="ruby-identifier">selected</span> = <span class="ruby-keyword kw">nil</span> )
+254:     <span class="ruby-constant">SELECT_PROMPT_OPTION</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">map</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">_e</span><span class="ruby-operator">|</span> <span class="ruby-identifier">_flag</span> = <span class="ruby-identifier">_e</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">to_s</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">selected</span> <span class="ruby-value">? </span><span class="ruby-value str">'selected=&quot;1&quot;'</span> <span class="ruby-operator">:</span> <span class="ruby-value str">''</span>; <span class="ruby-identifier">_e</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>) <span class="ruby-operator">?</span> <span class="ruby-node">&quot;&lt;option value=\&quot;#{_e[0]}\&quot; #{_flag}&gt;#{_e[1]}&lt;/option&gt;&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-node">&quot;&lt;option&gt;#{_e}&lt;/option&gt;&quot;</span> }.<span class="ruby-identifier">to_s</span>
+255:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -467,14 +469,14 @@ errors, if any.
             onclick="toggleCode('M000033-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000033-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 265</span>
-265:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">required_field_helper</span>( <span class="ruby-identifier">model</span>, <span class="ruby-identifier">element</span>, <span class="ruby-identifier">html</span> )
-266:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">model</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">model</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">element</span>.<span class="ruby-identifier">is_required</span>
-267:       <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">content_tag</span>( <span class="ruby-identifier">:div</span>, <span class="ruby-identifier">html</span>, <span class="ruby-identifier">:class</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'fieldWithErrors'</span> )
-268:     <span class="ruby-keyword kw">else</span>
-269:       <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">html</span>
-270:     <span class="ruby-keyword kw">end</span>
-271:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 267</span>
+267:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">required_field_helper</span>( <span class="ruby-identifier">model</span>, <span class="ruby-identifier">element</span>, <span class="ruby-identifier">html</span> )
+268:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">model</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">model</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">element</span>.<span class="ruby-identifier">is_required</span>
+269:       <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">content_tag</span>( <span class="ruby-identifier">:div</span>, <span class="ruby-identifier">html</span>, <span class="ruby-identifier">:class</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'fieldWithErrors'</span> )
+270:     <span class="ruby-keyword kw">else</span>
+271:       <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">html</span>
+272:     <span class="ruby-keyword kw">end</span>
+273:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -537,23 +539,23 @@ Usage:
             onclick="toggleCode('M000034-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000034-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 305</span>
-305:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">select_tag_for_filter</span>(<span class="ruby-identifier">model</span>, <span class="ruby-identifier">nvpairs</span>, <span class="ruby-identifier">params</span>)
-306:     <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">model</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">nvpairs</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">nvpairs</span>.<span class="ruby-identifier">empty?</span>
-307:     <span class="ruby-identifier">options</span> = { <span class="ruby-identifier">:query</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:query</span>] }
-308:     <span class="ruby-identifier">_url</span> = <span class="ruby-identifier">url_for</span>(<span class="ruby-identifier">eval</span>(<span class="ruby-node">&quot;#{model}_url(options)&quot;</span>))
-309:     <span class="ruby-identifier">_html</span> = <span class="ruby-value str">%{&lt;label for=&quot;show&quot;&gt;Show:&lt;/label&gt;&lt;br /&gt;}</span>
-310:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;select name=&quot;show&quot; id=&quot;show&quot; onchange=&quot;window.location='#{_url}' + '?show=' + this.value&quot;&gt;}</span>
-311:     <span class="ruby-identifier">nvpairs</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">pair</span><span class="ruby-operator">|</span>
-312:       <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;option value=&quot;#{pair[:scope]}&quot;}</span>
-313:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:show</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">pair</span>[<span class="ruby-identifier">:scope</span>] <span class="ruby-operator">||</span> ((<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:show</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:show</span>].<span class="ruby-identifier">empty?</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">pair</span>[<span class="ruby-identifier">:scope</span>] <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;all&quot;</span>)
-314:         <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">%{ selected=&quot;selected&quot;}</span>
-315:       <span class="ruby-keyword kw">end</span>
-316:       <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&gt;#{pair[:label]}}</span>
-317:       <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">%{&lt;/option&gt;}</span>
-318:     <span class="ruby-keyword kw">end</span>
-319:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">%{&lt;/select&gt;}</span>
-320:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 307</span>
+307:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">select_tag_for_filter</span>(<span class="ruby-identifier">model</span>, <span class="ruby-identifier">nvpairs</span>, <span class="ruby-identifier">params</span>)
+308:     <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">model</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">nvpairs</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">nvpairs</span>.<span class="ruby-identifier">empty?</span>
+309:     <span class="ruby-identifier">options</span> = { <span class="ruby-identifier">:query</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:query</span>] }
+310:     <span class="ruby-identifier">_url</span> = <span class="ruby-identifier">url_for</span>(<span class="ruby-identifier">eval</span>(<span class="ruby-node">&quot;#{model}_url(options)&quot;</span>))
+311:     <span class="ruby-identifier">_html</span> = <span class="ruby-value str">%{&lt;label for=&quot;show&quot;&gt;Show:&lt;/label&gt;&lt;br /&gt;}</span>
+312:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;select name=&quot;show&quot; id=&quot;show&quot; onchange=&quot;window.location='#{_url}' + '?show=' + this.value&quot;&gt;}</span>
+313:     <span class="ruby-identifier">nvpairs</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">pair</span><span class="ruby-operator">|</span>
+314:       <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;option value=&quot;#{pair[:scope]}&quot;}</span>
+315:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:show</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">pair</span>[<span class="ruby-identifier">:scope</span>] <span class="ruby-operator">||</span> ((<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:show</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:show</span>].<span class="ruby-identifier">empty?</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">pair</span>[<span class="ruby-identifier">:scope</span>] <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;all&quot;</span>)
+316:         <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">%{ selected=&quot;selected&quot;}</span>
+317:       <span class="ruby-keyword kw">end</span>
+318:       <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&gt;#{pair[:label]}}</span>
+319:       <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">%{&lt;/option&gt;}</span>
+320:     <span class="ruby-keyword kw">end</span>
+321:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">%{&lt;/select&gt;}</span>
+322:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -597,38 +599,38 @@ params in the controller:
             onclick="toggleCode('M000035-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000035-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 332</span>
-332:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">sort_link</span>(<span class="ruby-identifier">model</span>, <span class="ruby-identifier">field</span>, <span class="ruby-identifier">params</span>)
-333:     <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">field</span>.<span class="ruby-identifier">to_sym</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:by</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">field</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:by</span>]) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:dir</span>] <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;ASC&quot;</span>
-334:       <span class="ruby-identifier">classname</span> = <span class="ruby-value str">&quot;arrow-asc&quot;</span>
-335:       <span class="ruby-identifier">dir</span> = <span class="ruby-value str">&quot;DESC&quot;</span>
-336:     <span class="ruby-keyword kw">elsif</span> (<span class="ruby-identifier">field</span>.<span class="ruby-identifier">to_sym</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:by</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">field</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:by</span>])
-337:       <span class="ruby-identifier">classname</span> = <span class="ruby-value str">&quot;arrow-desc&quot;</span>
-338:       <span class="ruby-identifier">dir</span> = <span class="ruby-value str">&quot;ASC&quot;</span>
-339:     <span class="ruby-keyword kw">else</span>
-340:       <span class="ruby-identifier">dir</span> = <span class="ruby-value str">&quot;DESC&quot;</span>
-341:     <span class="ruby-keyword kw">end</span>
-342: 
-343:     <span class="ruby-identifier">options</span> = {
-344:       <span class="ruby-identifier">:by</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">field</span>,
-345:       <span class="ruby-identifier">:dir</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">dir</span>,
-346:       <span class="ruby-identifier">:query</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:query</span>],
-347:       <span class="ruby-identifier">:show_all</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:show_all</span>]
-348:     }
-349: 
-350:     <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:show</span>] = <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:show</span>] <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:show</span>].<span class="ruby-identifier">blank?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:show</span>] <span class="ruby-operator">==</span> <span class="ruby-value str">'all'</span>
+     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 334</span>
+334:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">sort_link</span>(<span class="ruby-identifier">model</span>, <span class="ruby-identifier">field</span>, <span class="ruby-identifier">params</span>)
+335:     <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">field</span>.<span class="ruby-identifier">to_sym</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:by</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">field</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:by</span>]) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:dir</span>] <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;ASC&quot;</span>
+336:       <span class="ruby-identifier">classname</span> = <span class="ruby-value str">&quot;arrow-asc&quot;</span>
+337:       <span class="ruby-identifier">dir</span> = <span class="ruby-value str">&quot;DESC&quot;</span>
+338:     <span class="ruby-keyword kw">elsif</span> (<span class="ruby-identifier">field</span>.<span class="ruby-identifier">to_sym</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:by</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">field</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:by</span>])
+339:       <span class="ruby-identifier">classname</span> = <span class="ruby-value str">&quot;arrow-desc&quot;</span>
+340:       <span class="ruby-identifier">dir</span> = <span class="ruby-value str">&quot;ASC&quot;</span>
+341:     <span class="ruby-keyword kw">else</span>
+342:       <span class="ruby-identifier">dir</span> = <span class="ruby-value str">&quot;DESC&quot;</span>
+343:     <span class="ruby-keyword kw">end</span>
+344: 
+345:     <span class="ruby-identifier">options</span> = {
+346:       <span class="ruby-identifier">:by</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">field</span>,
+347:       <span class="ruby-identifier">:dir</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">dir</span>,
+348:       <span class="ruby-identifier">:query</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:query</span>],
+349:       <span class="ruby-identifier">:show_all</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:show_all</span>]
+350:     }
 351: 
-352:     <span class="ruby-identifier">html_options</span> = {
-353:       <span class="ruby-identifier">:class</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">classname</span>,
-354:       <span class="ruby-identifier">:style</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;color: white; font-weight: #{params[:by] == field ? &quot;bold&quot; : &quot;normal&quot;}&quot;</span>,
-355:       <span class="ruby-identifier">:title</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Sort by this field&quot;</span>,
-356:     }
-357: 
-358:     <span class="ruby-identifier">field_name</span> = <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:labels</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:labels</span>][<span class="ruby-identifier">field</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:labels</span>][<span class="ruby-identifier">field</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">field</span>.<span class="ruby-identifier">titleize</span>
+352:     <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:show</span>] = <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:show</span>] <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:show</span>].<span class="ruby-identifier">blank?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:show</span>] <span class="ruby-operator">==</span> <span class="ruby-value str">'all'</span>
+353: 
+354:     <span class="ruby-identifier">html_options</span> = {
+355:       <span class="ruby-identifier">:class</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">classname</span>,
+356:       <span class="ruby-identifier">:style</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;color: white; font-weight: #{params[:by] == field ? &quot;bold&quot; : &quot;normal&quot;}&quot;</span>,
+357:       <span class="ruby-identifier">:title</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Sort by this field&quot;</span>,
+358:     }
 359: 
-360:     <span class="ruby-identifier">_link</span> = <span class="ruby-identifier">model</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Symbol</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">eval</span>(<span class="ruby-node">&quot;#{model}_url(options)&quot;</span>) <span class="ruby-operator">:</span> <span class="ruby-node">&quot;/#{model}?#{options.to_params}&quot;</span>
-361:     <span class="ruby-identifier">link_to</span>(<span class="ruby-identifier">field_name</span>, <span class="ruby-identifier">_link</span>, <span class="ruby-identifier">html_options</span>)
-362:   <span class="ruby-keyword kw">end</span>
+360:     <span class="ruby-identifier">field_name</span> = <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:labels</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:labels</span>][<span class="ruby-identifier">field</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:labels</span>][<span class="ruby-identifier">field</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">field</span>.<span class="ruby-identifier">titleize</span>
+361: 
+362:     <span class="ruby-identifier">_link</span> = <span class="ruby-identifier">model</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Symbol</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">eval</span>(<span class="ruby-node">&quot;#{model}_url(options)&quot;</span>) <span class="ruby-operator">:</span> <span class="ruby-node">&quot;/#{model}?#{options.to_params}&quot;</span>
+363:     <span class="ruby-identifier">link_to</span>(<span class="ruby-identifier">field_name</span>, <span class="ruby-identifier">_link</span>, <span class="ruby-identifier">html_options</span>)
+364:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -648,16 +650,16 @@ params in the controller:
             onclick="toggleCode('M000036-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000036-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 364</span>
-364:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">tag_for_collapsible_row</span>(<span class="ruby-identifier">obj</span>, <span class="ruby-identifier">params</span>)
-365:     <span class="ruby-identifier">_html</span> = <span class="ruby-value str">&quot;&quot;</span>
-366:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">obj</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:parent</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">parent</span>
-367:       <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;tr class=&quot;#{obj.class.name.downcase}_#{obj.parent.id} #{params[:class]}&quot; style=&quot;display: none; #{params[:style]}&quot;&gt;}</span>
-368:     <span class="ruby-keyword kw">else</span>
-369:       <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;tr class=&quot;#{params[:class]}&quot; style=&quot;#{params[:style]}&quot;&gt;}</span>
-370:     <span class="ruby-keyword kw">end</span>
-371:     <span class="ruby-identifier">_html</span>
-372:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 366</span>
+366:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">tag_for_collapsible_row</span>(<span class="ruby-identifier">obj</span>, <span class="ruby-identifier">params</span>)
+367:     <span class="ruby-identifier">_html</span> = <span class="ruby-value str">&quot;&quot;</span>
+368:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">obj</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:parent</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">parent</span>
+369:       <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;tr class=&quot;#{obj.class.name.downcase}_#{obj.parent.id} #{params[:class]}&quot; style=&quot;display: none; #{params[:style]}&quot;&gt;}</span>
+370:     <span class="ruby-keyword kw">else</span>
+371:       <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;tr class=&quot;#{params[:class]}&quot; style=&quot;#{params[:style]}&quot;&gt;}</span>
+372:     <span class="ruby-keyword kw">end</span>
+373:     <span class="ruby-identifier">_html</span>
+374:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -677,11 +679,11 @@ params in the controller:
             onclick="toggleCode('M000037-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000037-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 374</span>
-374:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">tag_for_collapsible_row_control</span>(<span class="ruby-identifier">obj</span>)
-375:     <span class="ruby-identifier">_base_id</span> = <span class="ruby-node">&quot;#{obj.class.name.downcase}_#{obj.id}&quot;</span>
-376:     <span class="ruby-identifier">_html</span> = <span class="ruby-node">%{&lt;div id=&quot;hide_or_show_#{_base_id}&quot; class=&quot;show_link&quot; style=&quot;background-color: #999999; border: 1px solid #999999;&quot; onclick=&quot;javascript:hide_or_show('#{_base_id}');&quot;&gt;&lt;/div&gt;}</span>
-377:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 376</span>
+376:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">tag_for_collapsible_row_control</span>(<span class="ruby-identifier">obj</span>)
+377:     <span class="ruby-identifier">_base_id</span> = <span class="ruby-node">&quot;#{obj.class.name.downcase}_#{obj.id}&quot;</span>
+378:     <span class="ruby-identifier">_html</span> = <span class="ruby-node">%{&lt;div id=&quot;hide_or_show_#{_base_id}&quot; class=&quot;show_link&quot; style=&quot;background-color: #999999; border: 1px solid #999999;&quot; onclick=&quot;javascript:hide_or_show('#{_base_id}');&quot;&gt;&lt;/div&gt;}</span>
+379:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -721,17 +723,17 @@ Yields:
             onclick="toggleCode('M000038-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000038-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 393</span>
-393:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">tag_for_label_with_inline_help</span>( <span class="ruby-identifier">label_text</span>, <span class="ruby-identifier">field_id</span>, <span class="ruby-identifier">help_text</span> )
-394:     <span class="ruby-identifier">_html</span> = <span class="ruby-value str">&quot;&quot;</span>
-395:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;label for=&quot;#{field_id}&quot;&gt;#{label_text}: }</span>
-396:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;img src=&quot;/images/icons/help_icon.png&quot; onclick=&quot;$('#{field_id}_help').toggle();&quot; class='inline_icon' /&gt;}</span>
-397:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">%{&lt;/label&gt;&lt;br /&gt;}</span>
-398:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;div class=&quot;inline_help&quot; id=&quot;#{field_id}_help&quot; style=&quot;display: none;&quot;&gt;}</span>
-399:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;p&gt;#{help_text}&lt;/p&gt;}</span>
-400:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">%{&lt;/div&gt;}</span>
-401:     <span class="ruby-identifier">_html</span>
-402:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 395</span>
+395:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">tag_for_label_with_inline_help</span>( <span class="ruby-identifier">label_text</span>, <span class="ruby-identifier">field_id</span>, <span class="ruby-identifier">help_text</span> )
+396:     <span class="ruby-identifier">_html</span> = <span class="ruby-value str">&quot;&quot;</span>
+397:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;label for=&quot;#{field_id}&quot;&gt;#{label_text}: }</span>
+398:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;img src=&quot;/images/icons/help_icon.png&quot; onclick=&quot;$('#{field_id}_help').toggle();&quot; class='inline_icon' /&gt;}</span>
+399:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">%{&lt;/label&gt;&lt;br /&gt;}</span>
+400:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;div class=&quot;inline_help&quot; id=&quot;#{field_id}_help&quot; style=&quot;display: none;&quot;&gt;}</span>
+401:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;p&gt;#{help_text}&lt;/p&gt;}</span>
+402:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">%{&lt;/div&gt;}</span>
+403:     <span class="ruby-identifier">_html</span>
+404:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -770,14 +772,14 @@ Yields:
             onclick="toggleCode('M000039-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000039-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 417</span>
-417:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">tag_for_label_with_instructions</span>( <span class="ruby-identifier">label_text</span>, <span class="ruby-identifier">field_id</span>, <span class="ruby-identifier">instructions</span> )
-418:     <span class="ruby-identifier">_html</span> = <span class="ruby-value str">&quot;&quot;</span>
-419:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;label for=&quot;#{field_id}&quot;&gt;#{label_text}: }</span>
-420:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;span class=&quot;instructions&quot;&gt;#{instructions}&lt;/span&gt;}</span>
-421:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">%{&lt;/label&gt;&lt;br /&gt;}</span>
-422:     <span class="ruby-identifier">_html</span>
-423:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 419</span>
+419:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">tag_for_label_with_instructions</span>( <span class="ruby-identifier">label_text</span>, <span class="ruby-identifier">field_id</span>, <span class="ruby-identifier">instructions</span> )
+420:     <span class="ruby-identifier">_html</span> = <span class="ruby-value str">&quot;&quot;</span>
+421:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;label for=&quot;#{field_id}&quot;&gt;#{label_text}: }</span>
+422:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{&lt;span class=&quot;instructions&quot;&gt;#{instructions}&lt;/span&gt;}</span>
+423:     <span class="ruby-identifier">_html</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">%{&lt;/label&gt;&lt;br /&gt;}</span>
+424:     <span class="ruby-identifier">_html</span>
+425:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>

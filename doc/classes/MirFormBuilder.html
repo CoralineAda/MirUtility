@@ -115,6 +115,16 @@ Returns:
     &lt;input id=&quot;user_first_name&quot; name=&quot;user[first_name]&quot; size=&quot;30&quot; type=&quot;text&quot; /&gt;
   &lt;/fieldset&gt;
 </pre>
+<h3>Form field with no label</h3>
+<pre>
+  &lt;%= f.text_field :search, :label =&gt; false -%&gt;
+</pre>
+<p>
+Returns:
+</p>
+<pre>
+  &lt;input id=&quot;search&quot; name=&quot;search&quot; size=&quot;30&quot; type=&quot;text&quot; /&gt;
+</pre>
 <h3>Form field with inline help (? icon which reveals help content when clicked):</h3>
 <pre>
   &lt;%= f.password_field :password %&gt;

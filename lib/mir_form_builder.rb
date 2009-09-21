@@ -31,6 +31,14 @@
 #     <input id="user_first_name" name="user[first_name]" size="30" type="text" />
 #   </fieldset>
 #
+# === Form field with no label
+#
+#   <%= f.text_field :search, :label => false -%>
+#
+# Returns:
+#
+#   <input id="search" name="search" size="30" type="text" />
+#
 # === Form field with inline help (? icon which reveals help content when clicked):
 #
 #   <%= f.password_field :password %>
@@ -91,6 +99,8 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
     
     define_method(name) do |field, *args|
       options = args.last.is_a?(Hash) ? args.pop : {}
+      return super if ! options[:label].nil? && options[:label] == false
+
       _label_text = options[:label] || field.to_s.humanize.capitalize_words
       if options[:instructions]
         _label = tag_for_label_with_instructions(_label_text, field, options[:instructions])

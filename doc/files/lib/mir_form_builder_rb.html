@@ -56,7 +56,7 @@
     </tr>
     <tr class="top-aligned-row">
       <td><strong>Last Update:</strong></td>
-      <td>Tue Sep 15 16:58:31 -0500 2009</td>
+      <td>Sun Sep 20 23:29:34 -0500 2009</td>
     </tr>
     </table>
   </div>
@@ -104,6 +104,16 @@ Returns:
     &lt;label for=&quot;user_first_name&quot;&gt;Custom&lt;/label&gt;&lt;br /&gt;
     &lt;input id=&quot;user_first_name&quot; name=&quot;user[first_name]&quot; size=&quot;30&quot; type=&quot;text&quot; /&gt;
   &lt;/fieldset&gt;
+</pre>
+<h3>Form field with no label</h3>
+<pre>
+  &lt;%= f.text_field :search, :label =&gt; false -%&gt;
+</pre>
+<p>
+Returns:
+</p>
+<pre>
+  &lt;input id=&quot;search&quot; name=&quot;search&quot; size=&quot;30&quot; type=&quot;text&quot; /&gt;
 </pre>
 <h3>Form field with inline help (? icon which reveals help content when clicked):</h3>
 <pre>
