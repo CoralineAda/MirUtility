@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
   s.authors = ["Corey Ehmke and Rod Monje"]
-  s.date = %q{2009-09-21}
+  s.date = %q{2009-09-22}
   s.description = %q{Standard extensions for Mir Rails apps.}
   s.email = %q{corey@seologic.com}
   s.extra_rdoc_files = ["CHANGELOG", "lib/mir_form_builder.rb", "lib/mir_utility.rb", "README.rdoc"]

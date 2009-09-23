@@ -82,6 +82,15 @@
 #     <label class="inline" for="user_foo">Something</label><br style='clear: both;'/><br />
 #   </fieldset>
 #
+# === Don't wrap fields in a fieldset
+#
+#   <%= f.text_field :query, :label => 'Search terms:', :fieldset => false -%>
+#
+# Returns
+#
+#   <label for="search_terms_query"><br />
+#   <input id="search_terms_query" name="search_terms_query" size="30" />
+#
 # == Troubleshooting
 #
 # If you're seeing double form labels, it's because you still have <%= label -%> elements in your forms.
@@ -114,9 +123,17 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
       options.delete(:help)
       options.delete(:inline_label)
       if options[:label] == false && name == 'check_box'
-        return @template.content_tag(:fieldset, super + _inline_label)
+        if options[:fieldset].nil? || options[:fieldset]
+          return @template.content_tag(:fieldset, super + _inline_label)
+        else 
+          return (super + _inline_label)
+        end
       else
-        return @template.content_tag(:fieldset, _label + super + _inline_label)
+        if options[:fieldset].nil? || options[:fieldset]
+          return @template.content_tag(:fieldset, _label + super + _inline_label)
+        else
+          return (_label + super + _inline_label)
+        end
       end
     end
   
