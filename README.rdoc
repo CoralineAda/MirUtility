@@ -15,11 +15,8 @@ Clone the git repo:
 To build from your local source:
 
   rake manifest
-  
   rake build_gemspec
-  
   gem build mir_utility.gemspec
-  
   sudo gem install mir_utility
   
 == Usage
@@ -29,15 +26,10 @@ To build from your local source:
 == Revising the Gem
 
   * Make your changes
-  
   * Revise the version number in Rakefile
-  
   * rake manifest
-  
   * rake build_gemspec
-  
   * Test locally by building and installing from local source
-  
   * Commit and push your changes
 
   

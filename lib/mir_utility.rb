@@ -208,7 +208,7 @@ module ApplicationHelper
   # This method works with nested resources.
   # Use in index views like this:
   #
-  # <td class="crud_links"><%= crud_links(@my_model, my_nested_model, 'my_model', 'my_nested_model', [:show, :edit, :delete]) -%></td>
+  # <td class="crud_links"><%= crud_links_for_nested_resource(@my_model, my_nested_model, 'my_model', 'my_nested_model', [:show, :edit, :delete]) -%></td>
   #
   def crud_links_for_nested_resource(model, nested_model, model_instance_name, nested_model_instance_name, actions, args={})
     _html = ""
