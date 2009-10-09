@@ -80,7 +80,7 @@
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000019">validates_associated</a>&nbsp;&nbsp;
+      <a href="#M000022">validates_associated</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -102,11 +102,11 @@
     <div id="methods">
       <h3 class="section-bar">Public Instance methods</h3>
 
-      <div id="method-M000019" class="method-detail">
-        <a name="M000019"></a>
+      <div id="method-M000022" class="method-detail">
+        <a name="M000022"></a>
 
         <div class="method-heading">
-          <a href="#M000019" class="method-signature">
+          <a href="#M000022" class="method-signature">
           <span class="method-name">validates_associated</span><span class="method-args">(*associations)</span>
           </a>
         </div>
@@ -118,24 +118,24 @@ messages to bubble up from associated models. Adapted from thread at <a
 href="http://pivotallabs.com/users/nick/blog/articles/359-alias-method-chain-validates-associated-informative-error-message">pivotallabs.com/users/nick/blog/articles/359-alias-method-chain-validates-associated-informative-error-message</a>
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000019-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000019-source">
+            onclick="toggleCode('M000022-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000022-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 46</span>
-46:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">validates_associated</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">associations</span>)
-47:     <span class="ruby-comment cmt"># These configuration lines are required if your going to use any conditionals with the validates associated - Rails 2.2.2 safe!</span>
-48:     <span class="ruby-identifier">configuration</span> = { <span class="ruby-identifier">:message</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">translate</span>(<span class="ruby-value str">'activerecord.errors.messages'</span>), <span class="ruby-identifier">:on</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:save</span> }
-49:     <span class="ruby-identifier">configuration</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">associations</span>.<span class="ruby-identifier">extract_options!</span>)
-50:     <span class="ruby-identifier">associations</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">association</span><span class="ruby-operator">|</span>
-51:       <span class="ruby-identifier">class_eval</span> <span class="ruby-keyword kw">do</span>
-52:         <span class="ruby-identifier">validates_each</span>(<span class="ruby-identifier">associations</span>,<span class="ruby-identifier">configuration</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">record</span>, <span class="ruby-identifier">associate_name</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
-53:           <span class="ruby-identifier">associates</span> = <span class="ruby-identifier">record</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">associate_name</span>)
-54:           <span class="ruby-identifier">associates</span> = [<span class="ruby-identifier">associates</span>] <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">associates</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value str">'each'</span>)
-55:           <span class="ruby-identifier">associates</span>.<span class="ruby-identifier">each</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">associate</span><span class="ruby-operator">|</span> <span class="ruby-identifier">associate</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">each</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value2</span><span class="ruby-operator">|</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-value str">&quot;&quot;</span>, <span class="ruby-node">&quot;#{value2}&quot;</span>) } <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">associate</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">associate</span>.<span class="ruby-identifier">valid?</span> }
-56:         <span class="ruby-keyword kw">end</span>
-57:       <span class="ruby-keyword kw">end</span>
-58:     <span class="ruby-keyword kw">end</span>
-59:   <span class="ruby-keyword kw">end</span>
+    <span class="ruby-comment cmt"># File lib/mir_utility.rb, line 71</span>
+71:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">validates_associated</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">associations</span>)
+72:     <span class="ruby-comment cmt"># These configuration lines are required if your going to use any conditionals with the validates associated - Rails 2.2.2 safe!</span>
+73:     <span class="ruby-identifier">configuration</span> = { <span class="ruby-identifier">:message</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">translate</span>(<span class="ruby-value str">'activerecord.errors.messages'</span>), <span class="ruby-identifier">:on</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:save</span> }
+74:     <span class="ruby-identifier">configuration</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">associations</span>.<span class="ruby-identifier">extract_options!</span>)
+75:     <span class="ruby-identifier">associations</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">association</span><span class="ruby-operator">|</span>
+76:       <span class="ruby-identifier">class_eval</span> <span class="ruby-keyword kw">do</span>
+77:         <span class="ruby-identifier">validates_each</span>(<span class="ruby-identifier">associations</span>,<span class="ruby-identifier">configuration</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">record</span>, <span class="ruby-identifier">associate_name</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+78:           <span class="ruby-identifier">associates</span> = <span class="ruby-identifier">record</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">associate_name</span>)
+79:           <span class="ruby-identifier">associates</span> = [<span class="ruby-identifier">associates</span>] <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">associates</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value str">'each'</span>)
+80:           <span class="ruby-identifier">associates</span>.<span class="ruby-identifier">each</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">associate</span><span class="ruby-operator">|</span> <span class="ruby-identifier">associate</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">each</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value2</span><span class="ruby-operator">|</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-value str">&quot;&quot;</span>, <span class="ruby-node">&quot;#{value2}&quot;</span>) } <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">associate</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">associate</span>.<span class="ruby-identifier">valid?</span> }
+81:         <span class="ruby-keyword kw">end</span>
+82:       <span class="ruby-keyword kw">end</span>
+83:     <span class="ruby-keyword kw">end</span>
+84:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
