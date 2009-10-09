@@ -371,7 +371,7 @@ module ApplicationHelper
       :by => field,
       :dir => dir,
       :query => params[:query],
-      :show_all => params[:show_all]
+      :show => params[:show]
     }
 
     options[:show] = params[:show] unless params[:show].blank? || params[:show] == 'all'
