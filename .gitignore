@@ -1,0 +1,7 @@
+.DS_Store
+coverage/*
+db/*.sqlite3
+db/extracts/_*
+log/*
+log/*.log
+tmp/*
