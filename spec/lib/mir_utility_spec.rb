@@ -1,4 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
+require 'singleton'
+
 include MirUtility
 
 describe MirUtility do
@@ -138,7 +140,11 @@ describe MirUtility do
     '18:20'.to_12_hour_time == '6:20 PM'
   end
 
-  it 'detects HTTP protocol' do
+  it 'adds the HTTP-protocol prefix' do
+    'www.seologic.com'.add_http_prefix.should == 'http://www.seologic.com'
+  end
+
+  it 'detects the HTTP protocol' do
     'http://www.seologic.com/'.has_http?.should be_true
     'https://www.seologic.com/'.has_http?.should be_true
     'www.seologic.com/'.has_http?.should be_false
@@ -157,6 +163,17 @@ describe MirUtility do
     'www.seologic.com/index.cgi'.is_page?.should be_false
     'www.seologic.com/index.htm'.is_page?.should be_true
     'www.seologic.com/index.html'.is_page?.should be_true
+  end
+
+  it 'converts a URI string to a URI object' do
+    'www.seologic.com'.to_uri.is_a?(URI).should be_true
+    'http://www.seologic.com'.to_uri.is_a?(URI::HTTP).should be_true
+  end
+
+  it 'detects a valid URL' do
+    'www.seologic.com'.valid_url?.should be_true
+    'http://www.seologic.com'.valid_url?.should be_true
+    lambda{ 'SEO Logic'.valid_url? }.should raise_error(ArgumentError)
   end
 
   it 'validates associated models with a meaningful message' do

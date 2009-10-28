@@ -1,8 +1,7 @@
-#require 'singleton'
+require 'singleton'
+require 'soap/header/simplehandler'
 
 module MirUtility
-
-#  require 'soap/header/simplehandler'
 
   COUNTRIES = [
     "United States",
@@ -527,17 +526,17 @@ class Hash
 end
 
 # Helper class for SOAP headers.
-# class Header < SOAP::Header::SimpleHandler
-# 	def initialize(tag, value)
-# 		super(XSD::QName.new(nil, tag))
-# 		@tag = tag
-# 		@value = value
-# 	end
-# 
-# 	def on_simple_outbound
-# 		@value
-# 	end
-# end
+class Header < SOAP::Header::SimpleHandler
+	def initialize(tag, value)
+		super(XSD::QName.new(nil, tag))
+		@tag = tag
+		@value = value
+	end
+
+	def on_simple_outbound
+		@value
+	end
+end
 
 class String
 
@@ -641,6 +640,12 @@ class String
 
   # URL methods
 
+  # Prefixes the given url with 'http://'.
+  def add_http_prefix
+    return if self.blank?
+    self.has_http? ? self : "http://#{self}"
+  end
+
   def has_http?
     !! (self =~ /^http[s]?:\/\//)
   end
@@ -652,9 +657,25 @@ class String
   def is_page?
     !! (self =~ /\.htm[l]?$/)
   end
+
+  # Returns a URI for the given string; nil if the string is invalid.
+  def to_uri
+    begin
+      _uri = URI.parse self
+    rescue
+      raise ArgumentError, "#{self} is an invalid URI!"
+    end
+
+    _uri
+  end
+
+  # Returns true if the given string is a valid url.
+  def valid_url?
+    ! self.to_uri.nil?
+  end
 end
 
-# class StringHelperSingleton
-#   include Singleton
-#   include ActionView::Helpers::NumberHelper
-# end
+class StringHelperSingleton
+  include Singleton
+  include ActionView::Helpers::NumberHelper
+end
