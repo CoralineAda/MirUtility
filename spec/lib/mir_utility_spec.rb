@@ -142,12 +142,14 @@ describe MirUtility do
 
   it 'adds the HTTP-protocol prefix' do
     'www.seologic.com'.add_http_prefix.should == 'http://www.seologic.com'
+    'ftp.seologic.com'.add_http_prefix.should == 'http://ftp.seologic.com'
+    'ftp://ftp.seologic.com'.add_http_prefix.should == 'ftp://ftp.seologic.com'
   end
 
-  it 'detects the HTTP protocol' do
-    'http://www.seologic.com/'.has_http?.should be_true
-    'https://www.seologic.com/'.has_http?.should be_true
-    'www.seologic.com/'.has_http?.should be_false
+  it 'detects HTTP URLs' do
+    'http://www.seologic.com/'.valid_http_url?.should be_true
+    'https://www.seologic.com/'.valid_http_url?.should be_true
+    'www.seologic.com'.valid_http_url?.should be_false
   end
 
   it 'detects trailing slashes' do
@@ -170,10 +172,10 @@ describe MirUtility do
     'http://www.seologic.com'.to_uri.is_a?(URI::HTTP).should be_true
   end
 
-  it 'detects a valid URL' do
-    'www.seologic.com'.valid_url?.should be_true
-    'http://www.seologic.com'.valid_url?.should be_true
-    lambda{ 'SEO Logic'.valid_url? }.should raise_error(ArgumentError)
+  it 'detects a valid HTTP URL' do
+    'www.seologic.com'.valid_http_url?.should be_false
+    'http://www.seologic.com'.valid_http_url?.should be_true
+    lambda{ 'SEO Logic'.valid_http_url? }.should raise_error(ArgumentError)
   end
 
   it 'validates associated models with a meaningful message' do

@@ -643,11 +643,13 @@ class String
   # Prefixes the given url with 'http://'.
   def add_http_prefix
     return if self.blank?
-    self.has_http? ? self : "http://#{self}"
+    _uri = self.to_uri
+    return self if _uri.is_a?(URI::FTP) || _uri.is_a?(URI::HTTP) || _uri.is_a?(URI::HTTPS) || _uri.is_a?(URI::LDAP) || _uri.is_a?(URI::MailTo)
+    "http://#{self}"
   end
 
   def has_http?
-    !! (self =~ /^http[s]?:\/\//)
+    !! (self =~ /^http[s]?:\/\/.+/)
   end
 
   def has_trailing_slash?
@@ -670,8 +672,8 @@ class String
   end
 
   # Returns true if the given string is a valid url.
-  def valid_url?
-    ! self.to_uri.nil?
+  def valid_http_url?
+    self.to_uri.is_a? URI::HTTP
   end
 end
 
