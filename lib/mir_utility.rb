@@ -648,16 +648,25 @@ class String
     "http://#{self}"
   end
 
+  # Returns true if a given string begins with http:// or https://.
   def has_http?
     !! (self =~ /^http[s]?:\/\/.+/)
   end
 
+  # Returns true if a given string has a trailing slash.
   def has_trailing_slash?
     !! (self =~ /\/$/)
   end
 
+  # Returns true if a given string refers to an HTML page.
   def is_page?
     !! (self =~ /\.htm[l]?$/)
+  end
+
+  # Returns the host from a given URL string; returns nil if the string is not a valid URL.
+  def to_host
+    _uri = self.to_uri
+    _uri ? _uri.host : nil
   end
 
   # Returns a URI for the given string; nil if the string is invalid.
@@ -671,7 +680,7 @@ class String
     _uri
   end
 
-  # Returns true if the given string is a valid url.
+  # Returns true if the given string is a valid URL.
   def valid_http_url?
     self.to_uri.is_a? URI::HTTP
   end

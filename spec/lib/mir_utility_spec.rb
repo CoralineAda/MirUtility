@@ -167,6 +167,13 @@ describe MirUtility do
     'www.seologic.com/index.html'.is_page?.should be_true
   end
 
+  it 'returns the host of a valid URI string' do
+    'www.seologic.com'.to_host.should be_nil
+    'www.seologic.com/webmaster-tools/link-popularity-check.php'.to_host.should be_nil
+    'http://www.seologic.com'.to_host.should == 'www.seologic.com'
+    'http://www.seologic.com/webmaster-tools/link-popularity-check.php'.to_host.should == 'www.seologic.com'
+  end
+
   it 'converts a URI string to a URI object' do
     'www.seologic.com'.to_uri.is_a?(URI).should be_true
     'http://www.seologic.com'.to_uri.is_a?(URI::HTTP).should be_true
