@@ -673,8 +673,8 @@ class String
   def to_uri
     begin
       _uri = URI.parse self
-    rescue
-      raise ArgumentError, "#{self} is an invalid URI!"
+    rescue URI::InvalidURIError
+      RAILS_DEFAULT_LOGGER.warn "#{self} is an invalid URI!"
     end
 
     _uri

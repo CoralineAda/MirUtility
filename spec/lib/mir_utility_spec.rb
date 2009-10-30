@@ -177,12 +177,13 @@ describe MirUtility do
   it 'converts a URI string to a URI object' do
     'www.seologic.com'.to_uri.is_a?(URI).should be_true
     'http://www.seologic.com'.to_uri.is_a?(URI::HTTP).should be_true
+    'SEO Logic'.to_uri.should be_nil
   end
 
   it 'detects a valid HTTP URL' do
     'www.seologic.com'.valid_http_url?.should be_false
     'http://www.seologic.com'.valid_http_url?.should be_true
-    lambda{ 'SEO Logic'.valid_http_url? }.should raise_error(ArgumentError)
+    'SEO Logic'.valid_http_url?.should be_false
   end
 
   it 'validates associated models with a meaningful message' do
