@@ -25,11 +25,8 @@ To build from your local source:
   
 == Revising the Gem
 
-  * Make your changes
-  * Revise the version number in Rakefile
-  * rake manifest
-  * rake build_gemspec
-  * Test locally by building and installing from local source
-  * Commit and push your changes
-
-  
+  * Make your changes.
+  * Test locally with rspec.
+  * Revise the version number in Rakefile.
+  * Follow build-from-local-source instructions above.
+  * Commit and push your changes.
