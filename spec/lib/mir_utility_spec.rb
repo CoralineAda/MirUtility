@@ -183,6 +183,7 @@ describe MirUtility do
   it 'detects a valid HTTP URL' do
     'www.seologic.com'.valid_http_url?.should be_false
     'http://www.seologic.com'.valid_http_url?.should be_true
+    'http://http://www.seologic.com'.valid_http_url?.should be_false
     'SEO Logic'.valid_http_url?.should be_false
   end
 

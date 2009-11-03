@@ -682,7 +682,7 @@ class String
 
   # Returns true if the given string is a valid URL.
   def valid_http_url?
-    self.to_uri.is_a? URI::HTTP
+    self.scan(/:\/\//).size == 1 && self.to_uri.is_a?(URI::HTTP)
   end
 end
 
