@@ -644,7 +644,7 @@ class String
   def add_http_prefix
     return if self.blank?
     _uri = self.to_uri
-    return self if _uri.is_a?(URI::FTP) || _uri.is_a?(URI::HTTP) || _uri.is_a?(URI::HTTPS) || _uri.is_a?(URI::LDAP) || _uri.is_a?(URI::MailTo)
+    return self if _uri.nil? || _uri.is_a?(URI::FTP) || _uri.is_a?(URI::HTTP) || _uri.is_a?(URI::HTTPS) || _uri.is_a?(URI::LDAP) || _uri.is_a?(URI::MailTo)
     "http://#{self}"
   end
 

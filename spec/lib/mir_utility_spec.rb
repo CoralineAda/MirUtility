@@ -144,6 +144,7 @@ describe MirUtility do
     'www.seologic.com'.add_http_prefix.should == 'http://www.seologic.com'
     'ftp.seologic.com'.add_http_prefix.should == 'http://ftp.seologic.com'
     'ftp://ftp.seologic.com'.add_http_prefix.should == 'ftp://ftp.seologic.com'
+    'http://'.add_http_prefix.should == 'http://'
   end
 
   it 'detects HTTP URLs' do
@@ -182,6 +183,7 @@ describe MirUtility do
 
   it 'detects a valid HTTP URL' do
     'www.seologic.com'.valid_http_url?.should be_false
+    'http://'.valid_http_url?.should be_false
     'http://www.seologic.com'.valid_http_url?.should be_true
     'http://http://www.seologic.com'.valid_http_url?.should be_false
     'SEO Logic'.valid_http_url?.should be_false
