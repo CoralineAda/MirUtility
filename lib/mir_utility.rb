@@ -49,6 +49,7 @@ module MirUtility
   end
 
   module CoreExtensions
+    
     module String
       # Add whatever helpers you want, then wrap any methods that you want from the
       #   ActionView::Helpers::Foo class
@@ -689,4 +690,11 @@ end
 class StringHelperSingleton
   include Singleton
   include ActionView::Helpers::NumberHelper
+end
+
+class TrueClass
+  def to_i; 1; end
+end
+class FalseClass
+  def to_i; 0; end
 end
