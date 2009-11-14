@@ -380,8 +380,9 @@ module ApplicationHelper
       :class => "#{classname} #{html_options[:class]}",
       :style => "color: white; font-weight: #{params[:by] == field ? "bold" : "normal"}; #{html_options[:style]}",
       :title => "Sort by this field",
+      :anchor => html_options[:anchor] || nil
     }
-
+    
     field_name = params[:labels] && params[:labels][field] ? params[:labels][field] : field.titleize
 
     _link = model.is_a?(Symbol) ? eval("#{model}_url(options)") : "/#{model}?#{options.to_params}"
