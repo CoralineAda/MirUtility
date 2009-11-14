@@ -455,6 +455,11 @@ class Array
   def mean
     self.inject(0){ |sum, x| sum += x } / self.size.to_f
   end
+  
+  def count
+    self.size
+  end
+  
 end
 
 module Enumerable

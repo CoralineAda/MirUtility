@@ -7,7 +7,7 @@ require 'rake/rdoctask'
 require 'tasks/rails'
 require 'echoe'
 
-Echoe.new('mir_utility', '0.3.1') do |p|
+Echoe.new('mir_utility', '0.3.2') do |p|
 	p.description     = "Standard extensions for Mir Rails apps."
 	p.url             = "http://github.com/bantik/mir_utility"
 	p.author          = "Corey Ehmke and Rod Monje"
