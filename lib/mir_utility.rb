@@ -368,6 +368,7 @@ module ApplicationHelper
     end
 
     options = {
+      :anchor => html_options[:anchor] || nil,
       :by => field,
       :dir => dir,
       :query => params[:query],
@@ -379,8 +380,7 @@ module ApplicationHelper
     html_options = {
       :class => "#{classname} #{html_options[:class]}",
       :style => "color: white; font-weight: #{params[:by] == field ? "bold" : "normal"}; #{html_options[:style]}",
-      :title => "Sort by this field",
-      :anchor => html_options[:anchor] || nil
+      :title => "Sort by this field"
     }
     
     field_name = params[:labels] && params[:labels][field] ? params[:labels][field] : field.titleize
