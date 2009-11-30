@@ -109,21 +109,16 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
     define_method(name) do |field, *args|
 
       options = args.last.is_a?(Hash) ? args.pop : {}
-      params_for_super = options.clone
-      [:instructions, :help, :inline_label, :fieldset, :label].each{|a| params_for_super.delete(a)}
+      select_options = args.first.is_a?(Array) ? args[0] : []
       
-      # Prepare label text.
-      if options[:label] == false  # No label.
-        _label_text = nil
-        _field = super(field, params_for_super)
-        _field << _inline_label if name == 'check_box'
-        return (options[:fieldset].nil? || options[:fieldset]) ? @template.content_tag(:fieldset, _field) : _field
-      elsif options[:label].blank?  # Not specified. Default to humanized version of field id.
+      params_for_super = args ? args.clone : nil
+      [:instructions, :help, :inline_label, :fieldset, :label].each{|a| params_for_super.delete(a)}
+            
+      if options[:label].blank?  # Not specified. Default to humanized version of field id.
         _label_text = field.to_s.humanize.capitalize_words
-      else                            # Label was provided.
+      elsif options[:label]      # Label was provided.
         _label_text = options[:label]
       end
-      
       
       # Create label, if label text was provided or created.
       if _label_text
@@ -142,10 +137,16 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
       
       [:instructions, :help, :inline_label, :fieldset, :label].each{|a| options.delete(a)}
 
-      if options[:fieldset].nil? || options[:fieldset]
-        return @template.content_tag(:fieldset, "#{_label}#{super(field, params_for_super)}#{_inline_label}")
+      if select_options.empty?
+        _field = super(field, options)
       else
-        return ("#{_label}#{super(field, params_for_super)}#{_inline_label}")
+        _field = super(field, select_options, options)
+      end
+      
+      if options[:fieldset].nil? || options[:fieldset]
+        return @template.content_tag(:fieldset, "#{_label}#{_field}#{_inline_label}")
+      else
+        return ("#{_label}#{_field}#{_inline_label}")
       end
       
     end
