@@ -129,12 +129,14 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
       if _label_text
         if options[:instructions] # Add instructions to label?
           _label = tag_for_label_with_instructions(_label_text, field, options[:instructions])
-        elseif options[:help]     # Add help to label?
+        elsif options[:help]     # Add help to label?
           _label = tag_for_label_with_inline_help(_label_text, field, options[:help])
         else                      # Handle default label.
           _label = label(field, _label_text) + "<br />" if _label_text
         end
-      elsif options[:inline_label] # Handle inline labels, e.g. for checkboxes
+      end
+      
+      if options[:inline_label] # Handle inline labels, e.g. for checkboxes
         _inline_label = label(field, options[:inline_label], :class => 'inline') + "<br style='clear: both;'/><br />"
       end
       
