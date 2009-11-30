@@ -107,34 +107,45 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
   helpers.each do |name|
     
     define_method(name) do |field, *args|
-      options = args.last.is_a?(Hash) ? args.pop : {}
-      return super if ! options[:label].nil? && options[:label] == false && name != 'check_box'
 
-      _label_text = options[:label] || field.to_s.humanize.capitalize_words
-      if options[:instructions]
-        _label = tag_for_label_with_instructions(_label_text, field, options[:instructions])
-      elsif options[:help]
-        _label = tag_for_label_with_inline_help(_label_text, field, options[:help])
-      else
-        _label = label(field, _label_text) + "<br />"
+      options = args.last.is_a?(Hash) ? args.pop : {}
+      params_for_super = options.clone
+      [:instructions, :help, :inline_label, :fieldset, :label].each{|a| params_for_super.delete(a)}
+      
+      # Prepare label text.
+      if options[:label] == false  # No label.
+        _label_text = nil
+        _field = super(field, params_for_super)
+        _field << _inline_label if name == 'check_box'
+        return (options[:fieldset].nil? || options[:fieldset]) ? @template.content_tag(:fieldset, _field) : _field
+      elsif options[:label].blank?  # Not specified. Default to humanized version of field id.
+        _label_text = field.to_s.humanize.capitalize_words
+      else                            # Label was provided.
+        _label_text = options[:label]
       end
-      _inline_label = options[:inline_label] ? label(field, options[:inline_label], :class => 'inline') + "<br style='clear: both;'/><br />" : ""
-      options.delete(:instructions)
-      options.delete(:help)
-      options.delete(:inline_label)
-      if options[:label] == false && name == 'check_box'
-        if options[:fieldset].nil? || options[:fieldset]
-          return @template.content_tag(:fieldset, super + _inline_label)
-        else 
-          return (super + _inline_label)
+      
+      
+      # Create label, if label text was provided or created.
+      if _label_text
+        if options[:instructions] # Add instructions to label?
+          _label = tag_for_label_with_instructions(_label_text, field, options[:instructions])
+        elseif options[:help]     # Add help to label?
+          _label = tag_for_label_with_inline_help(_label_text, field, options[:help])
+        else                      # Handle default label.
+          _label = label(field, _label_text) + "<br />" if _label_text
         end
-      else
-        if options[:fieldset].nil? || options[:fieldset]
-          return @template.content_tag(:fieldset, _label + super + _inline_label)
-        else
-          return (_label + super + _inline_label)
-        end
+      elsif options[:inline_label] # Handle inline labels, e.g. for checkboxes
+        _inline_label = label(field, options[:inline_label], :class => 'inline') + "<br style='clear: both;'/><br />"
       end
+      
+      [:instructions, :help, :inline_label, :fieldset, :label].each{|a| options.delete(a)}
+
+      if options[:fieldset].nil? || options[:fieldset]
+        return @template.content_tag(:fieldset, "#{_label}#{super(field, params_for_super)}#{_inline_label}")
+      else
+        return ("#{_label}#{super(field, params_for_super)}#{_inline_label}")
+      end
+      
     end
   
   end
