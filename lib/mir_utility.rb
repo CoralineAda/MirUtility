@@ -271,7 +271,7 @@ module ApplicationHelper
   
   # DRY way to return a legend tag that renders correctly in all browsers
   def legend_tag(text, args={})
-    _html << %{<div id="#{args[:id]}" class="faux_legend">#{text}</div>\r}
+    _html = %{<div id="#{args[:id]}" class="faux_legend">#{text}</div>\r}
     _html.gsub!(/ id=""/,'')
     _html.gsub!(/ class=""/,'')
     _html
