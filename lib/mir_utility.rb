@@ -253,11 +253,25 @@ module ApplicationHelper
     _html
   end
 
-  # DRY way to return a proper legend tag to compliant browsers, and something that doesn't break in IE
+  # DRY way to return a legend tag that renders correctly in all browsers. This variation allows
+  # for more "stuff" inside the legend tag, e.g. expand/collapse controls, without having to worry
+  # about escape sequences.
+  #
+  # Sample usage:
+  #
+  #   <%- legend_block do -%>
+  #     <span id="hide_or_show_backlinks" class="show_link" style="background-color: #999999; 
+  #     border: 1px solid #999999;" onclick="javascript:hide_or_show('backlinks');"></span>Backlinks (<%= 
+  #     @google_results.size -%>)
+  #   <%- end -%>
+  # 
+  def legend_block(&block)
+    concat content_tag(:div, capture(&block), :class => "legend")
+  end
+  
+  # DRY way to return a legend tag that renders correctly in all browsers
   def legend_tag(text, args={})
-    _html = ""
-    _html << %{<legend id="#{args[:id]}" class="#{args[:class]}">#{text}</legend>}
-    _html << %{<!--[if IE]><div id="#{args[:id]}" class="faux_legend">#{text}</div><![endif]-->\r}
+    _html << %{<div id="#{args[:id]}" class="faux_legend">#{text}</div>\r}
     _html.gsub!(/ id=""/,'')
     _html.gsub!(/ class=""/,'')
     _html
