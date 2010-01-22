@@ -266,7 +266,7 @@ module ApplicationHelper
   #   <%- end -%>
   # 
   def legend_block(&block)
-    concat content_tag(:div, capture(&block), :class => "legend")
+    concat content_tag(:div, capture(&block), :class => "faux_legend")
   end
   
   # DRY way to return a legend tag that renders correctly in all browsers
