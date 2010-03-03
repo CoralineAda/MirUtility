@@ -114,9 +114,11 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
       params_for_super = args ? args.clone : nil
       [:instructions, :help, :inline_label, :fieldset, :label].each{|a| params_for_super.delete(a)}
             
-      if options[:label].blank?  # Not specified. Default to humanized version of field id.
+      if options[:label].nil?         # Not specified. Default to humanized version of field id.
         _label_text = field.to_s.humanize.capitalize_words
-      elsif options[:label]      # Label was provided.
+      elsif options[:label] == false  # Label is disabled
+        _label_text = nil
+      elsif options[:label]           # Label was provided.
         _label_text = options[:label]
       end
       
