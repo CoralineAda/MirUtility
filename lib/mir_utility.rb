@@ -185,6 +185,10 @@ module ApplicationHelper
     !! ( expression.class == Regexp ? controller.action_name =~ expression : controller.action_name == expression )
   end
 
+  def checkmark
+    %{<div class="checkmark"></div>}
+  end
+  
   def controller?( expression )
     !! ( expression.class == Regexp ? controller.controller_name =~ expression : controller.controller_name == expression )
   end
