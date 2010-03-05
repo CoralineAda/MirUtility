@@ -300,8 +300,8 @@ module ApplicationHelper
   # Create a link that is opaque to search engine spiders.
   def obfuscated_link_to(path, image, label, args={})
     _html = %{<form action="#{path}" method="get" class="obfuscated_link">}
-    _html << %{ <input alt="#{label}" src="#{image}" type="image" />}
-    args.each{ |k,v| _html << %{  <input id="#{k.to_s}" name="#{k}" type="hidden" value="#{v}" />} }
+    _html << %{ <fieldset><input alt="#{label}" src="#{image}" type="image" /></fieldset>}
+    args.each{ |k,v| _html << %{  <div><input id="#{k.to_s}" name="#{k}" type="hidden" value="#{v}" /></div>} }
     _html << %{</form>}
     _html
   end
