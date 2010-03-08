@@ -134,8 +134,10 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
       end
       
       if options[:inline_label] # Handle inline labels, e.g. for checkboxes
-        _inline_label = label(field, options[:inline_label], :class => 'inline') + "<br style='clear: both;'/><br />"
+        _inline_label = label(field, options[:inline_label], :class => 'inline') + "<br style='clear: both;'/>"
       end
+      
+      _fieldset = options[:fieldset]
       
       [:instructions, :help, :inline_label, :fieldset, :label].each{|a| options.delete(a)}
 
@@ -145,7 +147,7 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
         _field = super(field, select_options, options)
       end
       
-      if options[:fieldset].nil? || options[:fieldset]
+      if _fieldset.nil? || _fieldset
         return @template.content_tag(:fieldset, "#{_label}#{_field}#{_inline_label}")
       else
         return ("#{_label}#{_field}#{_inline_label}")
