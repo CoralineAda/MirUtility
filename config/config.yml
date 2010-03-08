@@ -4,9 +4,6 @@
 # APP_CONFIG['mail']['port'] returns the value of the specified key in mail
 
 all: &all_settings
-  encryption:
-    private_key_file: config/private.pem
-    public_key_file: config/public.pem
 
 # Specific environment settings
 development: &non_production_settings
