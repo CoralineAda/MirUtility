@@ -1,7 +1,6 @@
 .DS_Store
 *.gem
 *.gemspec
-Manifest
 coverage/*
 db/*.sqlite3
 db/extracts/_*
