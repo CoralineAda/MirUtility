@@ -45,7 +45,7 @@ module MirUtility
   end
 
   def self.state_name_for(abbreviation)
-    STATE_CODES.find{|k,v| v == abbreviation.to_s.upcase}[0] || nil
+    STATE_CODES.value?(abbreviation.to_s.upcase) && STATE_CODES.find{|k,v| v == abbreviation.to_s.upcase}[0]
   end
 
   module CoreExtensions
