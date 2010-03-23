@@ -1,22 +1,11 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 require 'singleton'
 
-include ActionController
 include MirUtility
 
 describe MirUtility do
-
   it 'formats phone numbers' do
     ''.number_to_phone('5168675309').should == '516-867-5309'
-  end
-
-  it 'sanitizes params' do
-    sanitize_params( 2, [1, 2, 3], 1).should == 2
-    sanitize_params( 0, [1, 2, 3], 1).should == 1
-    sanitize_params( nil, [1, 2, 3], 1).should == 1
-    sanitize_params( 0, nil, 1).should == 1
-    lambda{ sanitize_params( 0, [1, 2, 3], nil) }.should raise_error(ArgumentError)
-    sanitize_params( nil, nil, 1).should == 1
   end
 
   it 'formats phone numbers with separate area codes' do

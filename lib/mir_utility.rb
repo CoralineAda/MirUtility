@@ -63,7 +63,9 @@ module MirUtility
 
 end
 
-module ActionController
+class ActionController::Base
+  include MirUtility
+
   # Returns a sanitized column parameter suitable for SQL order-by clauses.
   def sanitize_by_param(allowed=[], default='id')
     sanitize_params params[:by], allowed, default
