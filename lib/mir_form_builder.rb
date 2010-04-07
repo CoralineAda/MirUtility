@@ -109,7 +109,7 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
     define_method(name) do |field, *args|
       choices = args.first.is_a?(Array) ? args.first : nil
       # FIXME: separate html-options from options
-      options = args.last || {}
+      options = args.last.is_a?(Hash) ? args.last : {}
 
       if options[:label].nil? # Not specified. Default to humanized version of field id.
         _label_text = field.to_s.humanize.capitalize_words
