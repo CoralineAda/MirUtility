@@ -98,22 +98,22 @@
 class MirFormBuilder < ActionView::Helpers::FormBuilder
 
   include ApplicationHelper
-  
+
   helpers = field_helpers +
     %w{date_select datetime_select time_select} +
     %w{collection_select select country_select time_zone_select} -
     %w{hidden_field label fields_for}
-  
-  helpers.each do |name|
-    
-    define_method(name) do |field, *args|
 
+  helpers.each do |name|
+
+    define_method(name) do |field, *args|
+      # FIXME: separate html-options from options. currently you can't specify both.
       options = args.last.is_a?(Hash) ? args.pop : {}
-      select_options = args.first.is_a?(Array) ? args[0] : []
-      
+      choices = args.first
+
       params_for_super = args ? args.clone : nil
       [:instructions, :help, :inline_label, :fieldset, :label].each{|a| params_for_super.delete(a)}
-            
+
       if options[:label].nil?         # Not specified. Default to humanized version of field id.
         _label_text = field.to_s.humanize.capitalize_words
       elsif options[:label] == false  # Label is disabled
@@ -121,7 +121,7 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
       elsif options[:label]           # Label was provided.
         _label_text = options[:label]
       end
-      
+
       # Create label, if label text was provided or created.
       if _label_text
         if options[:instructions] # Add instructions to label?
@@ -132,29 +132,29 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
           _label = label("#{@object_name}_#{field}", _label_text) + "<br />" if _label_text
         end
       end
-      
+
       if options[:inline_label] # Handle inline labels, e.g. for checkboxes
         _inline_label = label(field, options[:inline_label], :class => 'inline') + "<br style='clear: both;'/>"
       end
-      
+
       _fieldset = options[:fieldset]
-      
+
       [:instructions, :help, :inline_label, :fieldset, :label].each{|a| options.delete(a)}
 
-      if select_options.empty?
+      if choices.blank?
         _field = super(field, options)
       else
-        _field = super(field, select_options, options)
+        _field = super(field, choices, options)
       end
-      
+
       if _fieldset.nil? || _fieldset
         return @template.content_tag(:fieldset, "#{_label}#{_field}#{_inline_label}")
       else
         return ("#{_label}#{_field}#{_inline_label}")
       end
-      
+
     end
-  
+
   end
 
 end
