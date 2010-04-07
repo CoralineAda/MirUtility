@@ -1,3 +1,5 @@
+# FIXME: Currently, you can't specify both tag options and HTML-options at the same time. Only one or the other is supported because the class only recognizes one hash argument.
+
 # == Configuration
 #
 # === Configure your application to default to the custom form builder
@@ -96,7 +98,6 @@
 # If you're seeing double form labels, it's because you still have <%= label -%> elements in your forms.
 #
 class MirFormBuilder < ActionView::Helpers::FormBuilder
-
   include ApplicationHelper
 
   helpers = field_helpers +
@@ -105,10 +106,9 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
     %w{hidden_field label fields_for}
 
   helpers.each do |name|
-
     define_method(name) do |field, *args|
-      choices = args.first
-      # FIXME: separate html-options from options. currently you can't specify both.
+      choices = args.first.is_a?(Array) ? args.first : nil
+      # FIXME: separate html-options from options
       options = args.last || {}
 
       if options[:label].nil? # Not specified. Default to humanized version of field id.
@@ -124,26 +124,28 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
         elsif options[:help]     # Add help to label?
           _label = tag_for_label_with_inline_help(_label_text, "#{@object_name}_#{field}", options[:help])
         else                      # Handle default label.
-          _label = label("#{@object_name}_#{field}", _label_text) + "<br />"
+          _label = label("#{@object_name}_#{field}", _label_text) + '<br />'
         end
       end
 
       if options[:inline_label] # Handle inline labels, e.g. for checkboxes
-        _inline_label = label(field, options[:inline_label], :class => 'inline') + "<br style='clear: both;'/>"
+        _inline_label = label(field, options[:inline_label], :class => 'inline') + '<br style="clear: both;"/>'
       end
 
       [:instructions, :help, :inline_label, :fieldset, :label].each{|a| options.delete(a)}
 
-      _field = choices.blank? ? super(field, options) : super(field, choices, options)
+      # FIXME: is there a better way to specify the correct arguments?
+      begin
+        _field = super(field, choices, options)
+      rescue
+        _field = super(field, options)
+      end
 
       if options[:fieldset] == false
-        return ("#{_label}#{_field}#{_inline_label}")
+        return "#{_label}#{_field}#{_inline_label}"
       else
         return @template.content_tag(:fieldset, "#{_label}#{_field}#{_inline_label}")
       end
-
     end
-
   end
-
 end
