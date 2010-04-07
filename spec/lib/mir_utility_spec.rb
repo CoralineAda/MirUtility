@@ -36,8 +36,8 @@ describe MirUtility do
   end
 
   it 'converts active records to an array of name-value pairs suitable for select tags' do
-    _control = User.all.map{ |_u| [_u.name, _u.id ] }
-    User.to_option_values.should == _control
+    Primary.stubs(:find).returns([Primary.make_unsaved(:id => 1, :name => 'Admin'), Primary.make_unsaved(:id => 2, :name => 'User')])
+    Primary.to_option_values.should == [ ['Admin', 1], ['User', 2] ]
   end
 
   it 'converts arrays to a histogram hash' do
@@ -45,15 +45,12 @@ describe MirUtility do
   end
 
   it 'converts a hash to SQL conditions' do
-    _hash = {
+    {
       :first_name => 'Quentin',
       :last_name => 'Tarantino'
-    }
-    _quentin = User.make(:first_name => 'Quentin', :last_name => 'Tarantino')
-    User.find( :first, :conditions => _hash.to_sql ).should == _quentin
-    # TODO: spec OR case
+    }.to_sql.should == "first_name = 'Quentin' AND last_name = 'Tarantino'"
   end
-  
+
   it 'initializes SOAP headers' do
     _control = {
       :tag => '',
