@@ -1,9 +1,18 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 require 'singleton'
 
+include ApplicationHelper
 include MirUtility
 
 describe MirUtility do
+  it 'returns an options string with the default select prompt' do
+    options_for_array([['1', 'Option 1'], ['2', 'Option 2'], ['3', 'Option 3']]).should == "#{SELECT_PROMPT_OPTION}<option value=\"1\" >Option 1</option><option value=\"2\" >Option 2</option><option value=\"3\" >Option 3</option>"
+  end
+
+  it 'returns an options string with the default select prompt and a default value' do
+    options_for_array([['1', 'Option 1'], ['2', 'Option 2'], ['3', 'Option 3']], '2').should == "#{SELECT_PROMPT_OPTION}<option value=\"1\" >Option 1</option><option value=\"2\" selected=\"1\">Option 2</option><option value=\"3\" >Option 3</option>"
+  end
+
   it 'formats phone numbers' do
     ''.number_to_phone('5168675309').should == '516-867-5309'
   end
@@ -17,7 +26,7 @@ describe MirUtility do
     'Transylvania 6-5000'.formatted_phone.should == 'Transylvania 6-5000'
     '123-45-6789'.formatted_phone.should == '123-45-6789'
   end
-  
+
   it 'formats zip codes' do
     '205000003'.formatted_zip.should == '20500-0003'
   end
@@ -186,32 +195,23 @@ describe MirUtility do
   end
 
   it 'validates associated models with a meaningful message' do
-
+    # FIXME: why does this class definition have to be here when it's already defined as a model?
     class Primary < ActiveRecord::Base
       has_many :secondaries
       validates_associated :secondaries
     end
-    
-    class Secondary < ActiveRecord::Base
-      belongs_to :primary
-      validate :name_should_not_be_illegal
-      
-      def name_should_not_be_illegal
-        errors.add_to_base("Secondary's name cannot be illegal.") if self.name == 'illegal'
-      end
-    end
-    
-    container = Primary.new(:name => "My Folder")
-    container.save.should be_true
 
+    container = Primary.new(:name => "My Folder")
+    container.valid?.should be_true
+
+    Secondary.any_instance.stubs(:save).returns(true)
+    container.stubs(:new_record?).returns(false)
     container.secondaries.create(:name => "legal").should be_true
-    container.save.should be_true
-    
+    container.valid?.should be_true
+
     container.secondaries.create(:name => "illegal").should be_true
-    container.save.should be_false
-    
+    container.valid?.should be_false
+
     container.errors.inspect.include?("Secondary's name cannot be illegal.").should be_true
-    
   end
-  
 end
