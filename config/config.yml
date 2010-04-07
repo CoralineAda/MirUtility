@@ -8,20 +8,7 @@ all: &all_settings
 # Specific environment settings
 development: &non_production_settings
   <<: *all_settings
-    
-production:
-  <<: *all_settings
-  mail:
-    address: mail.seologic.com
-    port: 25
-    domain: seologic.com
-    authentication: login
-    username:
-    password:
 
-staging:
-  <<: *all_settings
-
-test: 
+test:
   <<: *all_settings
   <<: *non_production_settings

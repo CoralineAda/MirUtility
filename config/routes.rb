@@ -18,21 +18,6 @@ ActionController::Routing::Routes.draw do |map|
 
   # Singletons
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
-  map.root :controller => 'home'
-
-  # Home
-  map.test_error 'test_error', :controller => 'home', :action => 'test_error'
-
-  # Sessions
-  map.logout '/logout', :controller => 'sessions', :action => 'destroy'
-  map.login '/login', :controller => 'sessions', :action => 'new'
-
-  # Users
-  map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
-	map.forgot_password 'users/forgot_password', :controller => 'users', :action => 'forgot_password'
-  map.register '/register', :controller => 'users', :action => 'create'
-	map.reset_password 'users/reset_password', :controller => 'users', :action => 'reset_password'
-  map.signup '/signup', :controller => 'users', :action => 'new'
 
   # ====================================== RESTful routes ==========================================
 
@@ -56,14 +41,6 @@ ActionController::Routing::Routes.draw do |map|
   #     # Directs /admin/products/* to Admin::ProductsController (app/controllers/admin/products_controller.rb)
   #     admin.resources :products
   #   end
-
-  map.resource :session
-  map.resources :roles
-  map.resources :users,
-    :member => {
-      :suspend => :put,
-      :unsuspend => :put
-    }
 
   # ========================== Generalized routes: careful with precedence! ========================
 
