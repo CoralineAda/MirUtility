@@ -318,8 +318,8 @@ module ApplicationHelper
     models.map{ |m| [m[label], m.id] }.sort_by{ |e| e[0] }
   end
 
-  def options_for_array( a, selected = nil )
-    SELECT_PROMPT_OPTION + a.map{ |_e| _flag = _e[0].to_s == selected ? 'selected="1"' : ''; _e.is_a?(Array) ? "<option value=\"#{_e[0]}\" #{_flag}>#{_e[1]}</option>" : "<option>#{_e}</option>" }.to_s
+  def options_for_array( a, selected = nil, prompt = SELECT_PROMPT )
+    "<option value=''>#{prompt}</option>" + a.map{ |_e| _flag = _e[0].to_s == selected ? 'selected="1"' : ''; _e.is_a?(Array) ? "<option value=\"#{_e[0]}\" #{_flag}>#{_e[1]}</option>" : "<option>#{_e}</option>" }.to_s
   end
 
   # Create a link that is opaque to search engine spiders.
