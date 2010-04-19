@@ -432,6 +432,84 @@ module ApplicationHelper
     link_to(field_name, _link, html_options)
   end
 
+  # Tabbed interface helpers =======================================================================
+
+  # Returns formatted tabs with appropriate JS for activation. Use in conjunction with tab_body.
+  #
+  # Usage:
+  #
+  #   <%- tabset do -%>
+  #     <%= tab_tag :id => 'ppc_ads', :label => 'PPC Ads', :state => 'active' %>
+  #     <%= tab_tag :id => 'budget' %>
+  #     <%= tab_tag :id => 'geotargeting' %>
+  #   <%- end -%>
+  #
+  def tabset(&proc)
+    concat %{
+      <div class="jump_links">
+        <ul>
+    }
+    yield
+    concat %{
+        </ul>
+      </div>
+      <br style="clear: both;" /><br />
+      <input type="hidden" id="show_tab" />
+      <script type="text/javascript">
+        function hide_all_tabs() { $$('.tab_block').invoke('hide'); }
+        function activate_tab(tab) {
+          $$('.tab_control').each(function(elem){ elem.className = 'tab_control'});
+          $('show_' + tab).className = 'tab_control active';
+          hide_all_tabs();
+          $(tab).toggle();
+          $('show_tab').value = tab
+        }
+        function sticky_tab() { if (location.hash) { activate_tab(location.hash.gsub('#','')); } }
+        Event.observe(window, 'load', function() { sticky_tab(); });
+      </script>
+    }
+  end
+  
+  # Returns a tab body corresponding to tabs in a tabset. Make sure that the id of the tab_body
+  # matches the id provided to the tab_tag in the tabset block.
+  #
+  # Usage:
+  #
+  #   <%- tab_body :id => 'ppc_ads', :label => 'PPC Ad Details' do -%>
+  #     PPC ads form here.
+  #   <%- end -%>
+  # 
+  #   <%- tab_body :id => 'budget' do -%>
+  #     Budget form here.
+  #   <%- end -%>
+  # 
+  #   <%- tab_body :id => 'geotargeting' do -%>
+  #     Geotargeting form here.
+  #   <%- end -%>
+  #
+  def tab_body(args, &proc)
+    concat %{<div id="#{args[:id]}" class="tab_block form_container" style="display: #{args[:display] || 'none'};">}
+    concat %{#{legend_tag args[:label] || args[:id].titleize }}
+    concat %{<a name="#{args[:id]}"></a><br />}
+    yield
+    concat %{</div>}
+  end
+
+  # Returns the necessary HTML for a particular tab. Use inside a tabset block.
+  # Override the default tab label by specifying a :label parameter.
+  # Indicate that the tab should be active by setting its :state to 'active'.
+  # (NOTE: You must define a corresponding  CSS style for active tabs.)
+  #
+  # Usage:
+  #
+  #   <%= tab_tag :id => 'ppc_ads', :label => 'PPC Ads', :state => 'active' %>
+  #
+  def tab_tag(args, *css_class)
+    %{<li id="show_#{args[:id]}" class="tab_control #{args[:state]}" onclick="window.location='##{args[:id]}'; activate_tab('#{args[:id]}');">#{args[:label] || args[:id].to_s.titleize}</li>}
+  end
+        
+  # ================================================================================================
+
   def tag_for_collapsible_row(obj, params)
     _html = ""
     if obj && obj.respond_to?(:parent) && obj.parent
