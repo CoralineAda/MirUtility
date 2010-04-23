@@ -1,2 +1,3 @@
 --exclude "app/*,spec/*,gems/*,/Library/*" 
 --rails
+--threshold 100
