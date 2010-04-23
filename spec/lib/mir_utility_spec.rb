@@ -5,6 +5,14 @@ include ApplicationHelper
 include MirUtility
 
 describe MirUtility do
+  it 'returns a canonical URL' do
+    MirUtility.canonical_url('cnn.com').should == 'cnn.com/'
+  end
+
+  it 'expands state abbreviations' do
+    MirUtility.state_name_for('NY').should == 'New York'
+  end
+
   it 'returns an options string with the default select prompt' do
     options_for_array([['1', 'Option 1'], ['2', 'Option 2'], ['3', 'Option 3']]).should == "#{SELECT_PROMPT_OPTION}<option value=\"1\" >Option 1</option><option value=\"2\" >Option 2</option><option value=\"3\" >Option 3</option>"
   end
@@ -36,6 +44,11 @@ describe MirUtility do
     _a.mean.should == (_a.sum.to_f/_a.size.to_f).to_f
   end
 
+  it 'aliases count to size' do
+    _a = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+    _a.count.should == _a.size
+  end
+
   it 'converts seconds to hours:minutes:seconds' do
     86400.to_hrs_mins_secs.should == '24:00:00'
   end
@@ -54,10 +67,13 @@ describe MirUtility do
   end
 
   it 'converts a hash to SQL conditions' do
-    {
+    _hash = {
       :first_name => 'Quentin',
       :last_name => 'Tarantino'
-    }.to_sql.should == "first_name = 'Quentin' AND last_name = 'Tarantino'"
+    }
+    _hash.to_sql.should =~ /first_name = 'Quentin'/
+    _hash.to_sql.should =~ /last_name = 'Tarantino'/
+    _hash.to_sql.should =~ / AND /
   end
 
   it 'initializes SOAP headers' do
