@@ -153,7 +153,7 @@ class ActiveRecord::Base
 
         # build hashes of integer and/or text search fields and values for each non-blank param
         if ! pairs[_field].blank?
-          _field.to_s =~ /_id$|\?$/ ? _int_terms[_field.to_s.gsub('?', '')] = pairs[_field] : _text_terms[_field] = pairs[_field]
+          _field.to_s =~ /^id$|_id$|\?$/ ? _int_terms[_field.to_s.gsub('?', '')] = pairs[_field] : _text_terms[_field] = pairs[_field]
         end
       end
 

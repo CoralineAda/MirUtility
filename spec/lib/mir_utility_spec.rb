@@ -1,9 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 require 'singleton'
 
-include ApplicationHelper
-include MirUtility
-
 describe MirUtility do
   it 'returns a canonical URL' do
     MirUtility.canonical_url('cnn.com').should == 'cnn.com/'

@@ -1,7 +1,5 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-include MirUtility
-
 describe ApplicationController do
   it 'sanitizes the sort-by param' do
     controller.stubs(:params).returns(:by => 'SELECT * FROM accounts')
