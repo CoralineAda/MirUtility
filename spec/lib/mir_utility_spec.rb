@@ -1,6 +1,9 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 require 'singleton'
 
+include ApplicationHelper
+include MirUtility
+
 describe MirUtility do
   it 'returns a canonical URL' do
     MirUtility.canonical_url('cnn.com').should == 'cnn.com/'
@@ -61,6 +64,10 @@ describe MirUtility do
 
   it 'converts arrays to a histogram hash' do
     [:r, :r, :o, :y, :g, :b, :i, :v, :v, :o].to_histogram.should == {:o=>2, :g=>1, :v=>2, :r=>2, :i=>1, :y=>1, :b=>1}
+  end
+
+  it 'converts a hash to HTTP parameters' do
+    { :string => 1, :array => [2, 3], :hash => { :a => 4, :b => {:c => 5} } }.to_params.should == 'string=1&array[0]=2&array[1]=3&hash[a]=4&hash[b][c]=5'
   end
 
   it 'converts a hash to SQL conditions' do
