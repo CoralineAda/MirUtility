@@ -9,6 +9,17 @@ describe MirUtility do
     MirUtility.canonical_url('cnn.com').should == 'cnn.com/'
   end
 
+  it 'normalizes slugs' do
+    MirUtility.normalize_slug('!@#$%^&*()').should == ''
+    MirUtility.normalize_slug('abcdefghijklmnopqrstuvwxyz').should == 'abcdefghijklmnopqrstuvwxyz'
+    MirUtility.normalize_slug('ABCDEFGHIJKLMNOPQRSTUVWXYZ').should == 'abcdefghijklmnopqrstuvwxyz'
+    MirUtility.normalize_slug('0123456789').should == '0123456789'
+    MirUtility.normalize_slug('mir_utility').should == 'mir_utility'
+    MirUtility.normalize_slug('mir__utility').should == 'mir_utility'
+    MirUtility.normalize_slug('mir-utility').should == 'mir_utility'
+    MirUtility.normalize_slug('mir-utility/index//').should == 'mir_utility_index'
+  end
+
   it 'expands state abbreviations' do
     MirUtility.state_name_for('NY').should == 'New York'
   end

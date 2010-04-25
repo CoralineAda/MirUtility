@@ -36,11 +36,9 @@ module MirUtility
 
   # When Slug.normalize just isn't good enough...
   def self.normalize_slug(text)
-    _normalized = text.gsub(/[^a-zA-Z0-9_\- ]/,'') # Strip out non-alpha-numeric characters
-    _normalized = Slug.normalize(_normalized)     # Let Slug take care of some other stuff
-    _normalized.gsub!('-','_')                    # Override slug's - with _
-    _normalized.gsub!(/[_]+/,'_')                 # Ensure that we have no __'s
-    _normalized.gsub!(/\/+/,'/')                  # Remove extra trailing slashes
+    _normalized = Slug.normalize(text)
+    _normalized.gsub!('-', '_')    # change - to _
+    _normalized.gsub!(/[_]+/, '_') # truncate multiple _
     _normalized
   end
 

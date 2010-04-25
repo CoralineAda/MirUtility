@@ -24,6 +24,7 @@ Rails::Initializer.run do |config|
   # They can then be installed with "rake gems:install" on new installations.
   # You have to specify the :lib option for libraries, where the Gem name (sqlite3-ruby) differs from the file itself (sqlite3)
   config.gem 'faker'
+  config.gem "friendly_id", :version => '2.2.7'
   config.gem 'notahat-machinist', :lib => 'machinist'
 
   # Only load the plugins named here, in the order given. By default, all plugins 
