@@ -2,12 +2,6 @@ require 'singleton'
 require 'soap/header/simplehandler'
 
 module MirUtility
-
-  COUNTRIES = [
-    "United States",
-    "Canada"
-  ]
-
   MONTHS = {
     0 => "JAN",
     1 => "FEB",
@@ -21,11 +15,6 @@ module MirUtility
     9 => "OCT",
     10 => "NOV",
     11 => "DEC"
-  }
-
-  STATE_SELECT_COUNTRIES_BY_ISO_CODE = {
-    'US' => 'US',
-    'CA' => 'CANADA'
   }
 
   STATE_CODES = { 'Alabama' => 'AL', 'Alaska' => 'AK', 'Arizona' => 'AZ', 'Arkansas' => 'AR', 'California' => 'CA', 'Colorado' => 'CO', 'Connecticut' => 'CT', 'Delaware' => 'DE', 'Florida' => 'FL', 'Georgia' => 'GA', 'Hawaii' => 'HI', 'Idaho' => 'ID', 'Illinois' => 'IL', 'Indiana' => 'IN', 'Iowa' => 'IA', 'Kansas' => 'KS', 'Kentucky' => 'KY', 'Louisiana' => 'LA', 'Maine' => 'ME', 'Maryland' => 'MD', 'Massachusetts' => 'MA', 'Michigan' => 'MI', 'Minnesota' => 'MN', 'Mississippi' => 'MS', 'Missouri' => 'MO', 'Montana' => 'MT', 'Nebraska' => 'NE', 'Nevada' => 'NV', 'New Hampshire' => 'NH', 'New Jersey' => 'NJ', 'New Mexico' => 'NM', 'New York' => 'NY', 'North Carolina' => 'NC', 'North Dakota' => 'ND', 'Ohio' => 'OH', 'Oklahoma' => 'OK', 'Oregon' => 'OR', 'Pennsylvania' => 'PA', 'Puerto Rico' => 'PR', 'Rhode Island' => 'RI', 'South Carolina' => 'SC', 'South Dakota' => 'SD', 'Tennessee' => 'TN', 'Texas' => 'TX', 'Utah' => 'UT', 'Vermont' => 'VT', 'Virginia' => 'VA', 'Washington' => 'WA', 'Washington DC' => 'DC', 'West Virginia' => 'WV', 'Wisconsin' => 'WI', 'Wyoming' => 'WY', 'Alberta' => 'AB', 'British Columbia' => 'BC', 'Manitoba' => 'MB', 'New Brunswick' => 'NB', 'Newfoundland and Labrador' => 'NL', 'Northwest Territories' => 'NT', 'Nova Scotia' => 'NS', 'Nunavut' => 'NU', 'Ontario' => 'ON', 'Prince Edward Island' => 'PE', 'Quebec' => 'QC', 'Saskatchewan' => 'SK', 'Yukon' => 'YT' }
@@ -733,29 +722,6 @@ class String
     return if self.blank?
     self.gsub!( /[\(\) -]+/, '' )
     self.size == 9 ? "#{self[0 .. 4]}-#{self[5 .. -1]}" : self
-  end
-
-  # Returns an array of ISO countries suitable for use in a select-form helper.
-  def iso_countries
-    countries = [] << CountryCodes.find_by_a2('US')
-    countries << CountryCodes.find_by_a2('CA')
-    priority_countries = []
-
-    for country in countries
-      priority_countries << [ country[:name], country[:a2] ]
-    end
-
-    priority_countries.sort
-  end
-
-  # Returns an array of ISO countries suitable for use in a select-tag helper.
-  def iso_countries_for_tag
-    iso_countries.map{ |name, code| [code, name] }
-  end
-
-  # Returns the country name compatible with the state_select plugin for the specified two-letter ISO code.
-  def to_state_select_country( iso_code )
-    STATE_SELECT_COUNTRIES_BY_ISO_CODE[iso_code]
   end
 
   # Time methods
