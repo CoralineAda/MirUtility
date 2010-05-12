@@ -407,7 +407,7 @@ module ApplicationHelper
       classname = "arrow-desc"
       dir = "ASC"
     else
-      dir = "DESC"
+      dir = "ASC"
     end
 
     options = {
