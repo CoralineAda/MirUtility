@@ -136,7 +136,11 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
 
       # FIXME: is there a better way to specify the correct arguments?
       begin
-        _field = super(field, choices, options)
+        if name == 'check_box'
+          _field = super(field, options)
+        else
+          _field = super(field, choices, options)
+        end
       rescue
         _field = super(field, options)
       end
