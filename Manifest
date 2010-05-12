@@ -4,4 +4,3 @@ Rakefile
 init.rb
 lib/mir_form_builder.rb
 lib/mir_utility.rb
-tmp/spec.html
