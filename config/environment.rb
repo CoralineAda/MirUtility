@@ -24,6 +24,7 @@ Rails::Initializer.run do |config|
   # They can then be installed with "rake gems:install" on new installations.
   # You have to specify the :lib option for libraries, where the Gem name (sqlite3-ruby) differs from the file itself (sqlite3)
   config.gem 'faker'
+  config.gem 'friendly_id'
   config.gem 'mocha'
 
   # Only load the plugins named here, in the order given. By default, all plugins 

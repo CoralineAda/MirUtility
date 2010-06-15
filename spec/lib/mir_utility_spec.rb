@@ -78,7 +78,21 @@ describe MirUtility do
   end
 
   it 'converts a hash to HTTP parameters' do
-    { :string => 1, :array => [2, 3], :hash => { :a => 4, :b => {:c => 5} } }.to_params.should == 'string=1&array[0]=2&array[1]=3&hash[a]=4&hash[b][c]=5'
+    _return = {
+      :string => 1,
+      :array => [2, 3],
+      :hash => {
+        :a => 4,
+        :b => {
+          :c => 5
+        }
+      }
+    }.to_params
+
+    _return.include?('string=1').should be_true
+    _return.include?('array[0]=2&array[1]=3').should be_true
+    _return.include?('hash[a]=4').should be_true
+    _return.include?('hash[b][c]=5').should be_true
   end
 
   it 'converts a hash to SQL conditions' do
