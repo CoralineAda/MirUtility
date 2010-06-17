@@ -55,12 +55,12 @@ class ActionController::Base
 
   # Returns a sanitized column parameter suitable for SQL order-by clauses.
   def sanitize_by_param(allowed=[], default='id')
-    sanitize_params params[:by], allowed, default
+    sanitize_params params && params[:by], allowed, default
   end
 
   # Returns a sanitized direction parameter suitable for SQL order-by clauses.
   def sanitize_dir_param
-    sanitize_params params[:dir], ['ASC', 'DESC'], 'ASC'
+    sanitize_params params && params[:dir], ['ASC', 'DESC'], 'ASC'
   end
 
   # Use this method to prevent SQL injection vulnerabilityes by verifying that a user-provided
