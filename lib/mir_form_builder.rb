@@ -118,7 +118,7 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
       end
 
       # Create label, if label text was provided or created.
-      if _label_text
+      if _label_text || options[:instructions]
         if options[:instructions] # Add instructions to label?
           _label = tag_for_label_with_instructions(_label_text, "#{@object_name}_#{field}", options[:instructions])
         elsif options[:help]     # Add help to label?

@@ -528,7 +528,7 @@ module ApplicationHelper
   #   </div>
   def tag_for_label_with_inline_help( label_text, field_id, help_text )
     _html = ""
-    _html << %{<label for="#{field_id}">#{label_text}: }
+    _html << %{<label for="#{field_id}">#{label_text}}
     _html << %{<img src="/images/icons/help_icon.png" onclick="$('#{field_id}_help').toggle();" class='inline_icon' />}
     _html << %{</label><br />}
     _html << %{<div class="inline_help" id="#{field_id}_help" style="display: none;">}
@@ -552,7 +552,7 @@ module ApplicationHelper
   #   <label><br />
   def tag_for_label_with_instructions( label_text, field_id, instructions )
     _html = ""
-    _html << %{<label for="#{field_id}">#{label_text}: }
+    _html << %{<label for="#{field_id}">#{label_text}}
     _html << %{<span class="instructions">#{instructions}</span>}
     _html << %{</label><br />}
     _html
