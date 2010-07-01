@@ -73,6 +73,12 @@ describe MirUtility do
     Primary.to_option_values.should == [ ['Admin', 1], ['User', 2] ]
   end
 
+  it 'strips the values of specified attributes' do
+    p = Primary.new :name => ' foo bar  '
+    p.strip :name
+    p.name.should == 'foo bar'
+  end
+
   it 'converts arrays to a histogram hash' do
     [:r, :r, :o, :y, :g, :b, :i, :v, :v, :o].to_histogram.should == {:o=>2, :g=>1, :v=>2, :r=>2, :i=>1, :y=>1, :b=>1}
   end

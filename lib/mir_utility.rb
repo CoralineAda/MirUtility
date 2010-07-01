@@ -175,6 +175,12 @@ class ActiveRecord::Base
     self.all.map{ |_x| [_x.name, _x.id] }
   end
 
+  # Strips the specified attribute's value.
+  def strip(attribute)
+    value = self[attribute]
+    self.send("#{attribute}=", value && value.strip)
+  end
+
   private
 
   def self.sql_conditions_for( integer_fields, text_fields, or_clause = nil, operator = 'OR' )
