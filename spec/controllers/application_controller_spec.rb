@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe ApplicationController do
   it 'detects its IP address' do
-    controller.local_ip.should =~ /^192\.168\.[0-9]+\.[0-9]+$|^10\.[0-9]+\.[0-9]+\.[0-9]+$/
+    ApplicationController.local_ip.should =~ /^192\.168\.[0-9]+\.[0-9]+$|^10\.[0-9]+\.[0-9]+\.[0-9]+$/
   end
 
   it 'sanitizes the sort-by param' do
