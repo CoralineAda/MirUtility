@@ -36,7 +36,6 @@ module MirUtility
   end
 
   module CoreExtensions
-    
     module String
       # Add whatever helpers you want, then wrap any methods that you want from the
       #   ActionView::Helpers::Foo class
@@ -52,6 +51,18 @@ end
 
 class ActionController::Base
   include MirUtility
+  require 'socket'
+
+  def local_ip
+    orig, Socket.do_not_reverse_lookup = Socket.do_not_reverse_lookup, true  # turn off reverse DNS resolution temporarily
+
+    UDPSocket.open do |s|
+      s.connect '64.233.187.99', 1
+      s.addr.last
+    end
+  ensure
+    Socket.do_not_reverse_lookup = orig
+  end
 
   # Returns a sanitized column parameter suitable for SQL order-by clauses.
   def sanitize_by_param(allowed=[], default='id')
@@ -63,7 +74,7 @@ class ActionController::Base
     sanitize_params params && params[:dir], ['ASC', 'DESC'], 'ASC'
   end
 
-  # Use this method to prevent SQL injection vulnerabilityes by verifying that a user-provided
+  # Use this method to prevent SQL injection vulnerabilities by verifying that a user-provided
   # parameter is on a whitelist of allowed values.
   #
   # Accepts a value, a list of allowed values, and a default value.
@@ -206,7 +217,7 @@ module ApplicationHelper
   def checkmark
     %{<div class="checkmark"></div>}
   end
-  
+
   def controller?( expression )
     !! ( expression.class == Regexp ? controller.controller_name =~ expression : controller.controller_name == expression )
   end
@@ -226,8 +237,8 @@ module ApplicationHelper
   def crud_links(model, instance_name, actions, args={})
     _html = ""
     _options = args.keys.empty? ? '' : ", #{args.map{|k,v| ":#{k} => #{v}"}}"
-    
-    if use_crud_icons 
+
+    if use_crud_icons
       if actions.include?(:show)
         _html << eval("link_to image_tag('/images/icons/view.png', :class => 'crud_icon'), model, :title => 'View'#{_options}")
       end
@@ -251,7 +262,7 @@ module ApplicationHelper
     _html
   end
 
-  # Display CRUD icons or links, according to setting in use_crud_icons method. 
+  # Display CRUD icons or links, according to setting in use_crud_icons method.
   # This method works with nested resources.
   # Use in index views like this:
   #
@@ -259,7 +270,7 @@ module ApplicationHelper
   #
   def crud_links_for_nested_resource(model, nested_model, model_instance_name, nested_model_instance_name, actions, args={})
     _html = ""
-    if use_crud_icons 
+    if use_crud_icons
       if actions.include?(:show)
         _html << eval("link_to image_tag('/images/icons/view.png', :class => 'crud_icon'), #{model_instance_name}_#{nested_model_instance_name}_path(model, nested_model), :title => 'View'")
       end
@@ -282,15 +293,15 @@ module ApplicationHelper
   # Sample usage:
   #
   #   <%- legend_block do -%>
-  #     <span id="hide_or_show_backlinks" class="show_link" style="background-color: #999999; 
-  #     border: 1px solid #999999;" onclick="javascript:hide_or_show('backlinks');"></span>Backlinks (<%= 
+  #     <span id="hide_or_show_backlinks" class="show_link" style="background-color: #999999;
+  #     border: 1px solid #999999;" onclick="javascript:hide_or_show('backlinks');"></span>Backlinks (<%=
   #     @google_results.size -%>)
   #   <%- end -%>
-  # 
+  #
   def legend_block(&block)
     concat content_tag(:div, capture(&block), :class => "faux_legend")
   end
-  
+
   # DRY way to return a legend tag that renders correctly in all browsers
   def legend_tag(text, args={})
     _html = %{<div id="#{args[:id]}" class="faux_legend">#{text}</div>\r}
@@ -323,7 +334,7 @@ module ApplicationHelper
     _html << %{</form>}
     _html
   end
-  
+
   # Wraps the given HTML in Rails' default style to highlight validation errors, if any.
   def required_field_helper( model, element, html )
     if model && ! model.errors.empty? && element.is_required
@@ -418,7 +429,7 @@ module ApplicationHelper
       :style => "color: white; font-weight: #{params[:by] == field ? "bold" : "normal"}; #{html_options[:style]}",
       :title => "Sort by this field"
     }
-    
+
     field_name = params[:labels] && params[:labels][field] ? params[:labels][field] : field.titleize
 
     _link = model.is_a?(Symbol) ? eval("#{model}_url(options)") : "/#{model}?#{options.to_params}"
@@ -462,7 +473,7 @@ module ApplicationHelper
       </script>
     }
   end
-  
+
   # Returns a tab body corresponding to tabs in a tabset. Make sure that the id of the tab_body
   # matches the id provided to the tab_tag in the tabset block.
   #
@@ -471,11 +482,11 @@ module ApplicationHelper
   #   <%- tab_body :id => 'ppc_ads', :label => 'PPC Ad Details' do -%>
   #     PPC ads form here.
   #   <%- end -%>
-  # 
+  #
   #   <%- tab_body :id => 'budget' do -%>
   #     Budget form here.
   #   <%- end -%>
-  # 
+  #
   #   <%- tab_body :id => 'geotargeting' do -%>
   #     Geotargeting form here.
   #   <%- end -%>
@@ -500,7 +511,7 @@ module ApplicationHelper
   def tab_tag(args, *css_class)
     %{<li id="show_#{args[:id]}" class="tab_control #{args[:state]}" onclick="window.location='##{args[:id]}'; activate_tab('#{args[:id]}');">#{args[:label] || args[:id].to_s.titleize}</li>}
   end
-        
+
   # ================================================================================================
 
   def tag_for_collapsible_row(obj, params)
@@ -512,12 +523,12 @@ module ApplicationHelper
     end
     _html
   end
-  
+
   def tag_for_collapsible_row_control(obj)
     _base_id = "#{obj.class.name.downcase}_#{obj.id}"
     _html = %{<div id="hide_or_show_#{_base_id}" class="show_link" style="background-color: #999999; border: 1px solid #999999;" onclick="javascript:hide_or_show('#{_base_id}');"></div>}
   end
-  
+
   # Create a set of tags for displaying a field label with inline help.
   # Field label text is appended with a ? icon, which responds to a click
   # by showing or hiding the provided help text.
@@ -563,18 +574,18 @@ module ApplicationHelper
     _html << %{</label><br />}
     _html
   end
-  
+
 end
 
 class Array
   def mean
     self.inject(0){ |sum, x| sum += x } / self.size.to_f
   end
-  
+
   def count
     self.size
   end
-  
+
 end
 
 module Enumerable
@@ -637,7 +648,7 @@ class Hash
     end
     _sql * " #{operator} "
   end
-  
+
   def self.from_array(array = [])
     h = Hash.new
     array.size.times{ |t| h[t] = array[t] }
