@@ -1,5 +1,3 @@
-# FIXME: Currently, you can't specify both tag options and HTML-options at the same time. Only one or the other is supported because the class only recognizes one hash argument.
-
 # == Configuration
 #
 # === Configure your application to default to the custom form builder
@@ -107,43 +105,42 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
 
   helpers.each do |name|
     define_method(name) do |field, *args|
-      choices = args.first.is_a?(Array) ? args.first : nil
-      # FIXME: separate html-options from options
-      options = args.last.is_a?(Hash) ? args.last : {}
+      RAILS_DEFAULT_LOGGER.debug "Processing #{name}"
+      RAILS_DEFAULT_LOGGER.debug "  Arguments: #{args.inspect}"
+
+      options = {}
+      # capture first hash as options
+      args.detect{ |a| a.is_a?(Hash); options = args.delete(a) }
+      include_label = true
+
+      RAILS_DEFAULT_LOGGER.debug "  Options: #{options.inspect}"
+      RAILS_DEFAULT_LOGGER.debug "  Remaining arguments: #{args.inspect}"
 
       if options[:label].nil? # Not specified. Default to humanized version of field id.
         _label_text = field.to_s.humanize.capitalize_words
+      elsif options[:label]
+        _label_text = options.delete :label
+      # options[:label] is false!
       else
-        _label_text = options[:label]
+        include_label = options.delete(:label)
       end
 
       # Create label, if label text was provided or created.
       if _label_text || options[:instructions]
-        if options[:instructions] # Add instructions to label?
-          _label = tag_for_label_with_instructions(_label_text, "#{@object_name}_#{field}", options[:instructions])
-        elsif options[:help]     # Add help to label?
-          _label = tag_for_label_with_inline_help(_label_text, "#{@object_name}_#{field}", options[:help])
-        else                      # Handle default label.
+        if options[:instructions]
+          _label = tag_for_label_with_instructions(_label_text, "#{@object_name}_#{field}", options.delete(:instructions))
+        elsif options[:help]
+          _label = tag_for_label_with_inline_help(_label_text, "#{@object_name}_#{field}", options.delete(:help))
+        elsif include_label
           _label = label("#{@object_name}_#{field}", _label_text) + '<br />'
         end
       end
 
       if options[:inline_label] # Handle inline labels, e.g. for checkboxes
-        _inline_label = label(field, options[:inline_label], :class => 'inline') + '<br style="clear: both;" />'
+        _inline_label = label(field, options.delete(:inline_label), :class => 'inline') + '<br style="clear: both;" />'
       end
 
-      [:instructions, :help, :inline_label, :fieldset, :label].each{|a| options.delete(a)}
-
-      # FIXME: is there a better way to specify the correct arguments?
-      begin
-        if name == 'check_box'
-          _field = super(field, options)
-        else
-          _field = super(field, choices, options)
-        end
-      rescue
-        _field = super(field, options)
-      end
+      _field = args.blank? ? super(field, options) : super(field, options, args)
 
       if options[:fieldset] == false
         return "#{_label}#{_field}#{_inline_label}"
