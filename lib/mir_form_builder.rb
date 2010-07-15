@@ -108,9 +108,9 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
       RAILS_DEFAULT_LOGGER.debug "Processing #{name}"
       RAILS_DEFAULT_LOGGER.debug "  Arguments: #{args.inspect}"
 
-      options = {}
       # capture first hash as options
-      args.detect{ |a| a.is_a?(Hash); options = args.delete(a) }
+      options = args.detect{ |a| a.is_a?(Hash) } || {}
+      args.delete(options)
       include_label = true
 
       RAILS_DEFAULT_LOGGER.debug "  Options: #{options.inspect}"
@@ -140,12 +140,19 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
         _inline_label = label(field, options.delete(:inline_label), :class => 'inline') + '<br style="clear: both;" />'
       end
 
-      _field = args.blank? ? super(field, options) : super(field, options, args)
+      _field = nil
+
+      if args.blank?
+        _field = super(field, options)
+      else
+        # invert signature if field is radio-button
+        _field = name == 'radio_button' ? super(field, args, options) : super(field, options, args)
+      end
 
       if options[:fieldset] == false
-        return "#{_label}#{_field}#{_inline_label}"
+        "#{_label}#{_field}#{_inline_label}"
       else
-        return @template.content_tag(:fieldset, "#{_label}#{_field}#{_inline_label}")
+        @template.content_tag(:fieldset, "#{_label}#{_field}#{_inline_label}")
       end
     end
   end
