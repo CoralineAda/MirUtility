@@ -12,6 +12,10 @@ describe ApplicationHelper do
     self.action?(/index|show/).should be_true
   end
 
+  it 'formats arrays as HTML lines' do
+    self.array_to_lines([:a, :b, :c]).should == 'a<br />b<br />c'
+  end
+
   it 'returns a check-mark div' do
     self.checkmark.should == '<div class="checkmark"></div>'
   end
