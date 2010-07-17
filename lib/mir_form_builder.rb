@@ -108,6 +108,10 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
       RAILS_DEFAULT_LOGGER.debug "Processing #{name}"
       RAILS_DEFAULT_LOGGER.debug "  Arguments: #{args.inspect}"
 
+      # capture first array as select choices
+      choices = args.detect{ |a| a.is_a?(Array) } || []
+      args.delete(choices)
+
       # capture first hash as options
       options = args.detect{ |a| a.is_a?(Hash) } || {}
       args.delete(options)
@@ -145,8 +149,12 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
       if args.blank?
         _field = super(field, options)
       else
-        # invert signature if field is radio-button
-        _field = name == 'radio_button' ? super(field, args, options) : super(field, options, args)
+        if name.include? 'select'
+          super(field, choices, options, args)
+        else
+          # invert signature if field is radio-button
+          _field = name == 'radio_button' ? super(field, args, options) : super(field, options, args)
+        end
       end
 
       if options[:fieldset] == false
