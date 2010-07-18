@@ -117,6 +117,7 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
       args.delete(options)
       include_label = true
 
+      RAILS_DEFAULT_LOGGER.debug "  Choices: #{choices.inspect}"
       RAILS_DEFAULT_LOGGER.debug "  Options: #{options.inspect}"
       RAILS_DEFAULT_LOGGER.debug "  Remaining arguments: #{args.inspect}"
 
@@ -146,14 +147,14 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
 
       _field = nil
 
-      if args.blank?
-        _field = super(field, options)
+      if name.include? 'select'
+        _field = super(field, choices, options)
       else
-        if name.include? 'select'
-          super(field, choices, options, args)
+        if name == 'radio_button'
+          # invert arguments
+          _field = super(field, args, options)
         else
-          # invert signature if field is radio-button
-          _field = name == 'radio_button' ? super(field, args, options) : super(field, options, args)
+          _field = args.blank? ? super(field, options) : super(field, options, args)
         end
       end
 
