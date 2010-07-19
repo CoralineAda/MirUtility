@@ -133,11 +133,11 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
       # Create label, if label text was provided or created.
       if _label_text || options[:instructions]
         if options[:instructions]
-          _label = tag_for_label_with_instructions(_label_text, "#{@object_name}_#{field}", options.delete(:instructions))
+          _label = tag_for_label_with_instructions(_label_text, field, options.delete(:instructions))
         elsif options[:help]
-          _label = tag_for_label_with_inline_help(_label_text, "#{@object_name}_#{field}", options.delete(:help))
+          _label = tag_for_label_with_inline_help(_label_text, field, options.delete(:help))
         elsif include_label
-          _label = label("#{@object_name}_#{field}", _label_text) + '<br />'
+          _label = label(field, _label_text) + '<br />'
         end
       end
 
