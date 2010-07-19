@@ -214,9 +214,9 @@ module ApplicationHelper
     !! ( expression.class == Regexp ? controller.action_name =~ expression : controller.action_name == expression )
   end
 
-  # Formats an array with HTML line breaks.
-  def array_to_lines(array)
-    array.blank? ? nil : array * '<br />'
+  # Formats an array with HTML line breaks, or the specified delimiter.
+  def array_to_lines(array, delimiter = '<br />')
+    array.blank? ? nil : array * delimiter
   end
 
   def checkmark
