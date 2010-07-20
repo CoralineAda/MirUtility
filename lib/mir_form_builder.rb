@@ -137,12 +137,12 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
         elsif options[:help]
           _label = tag_for_label_with_inline_help(_label_text, field, options.delete(:help))
         elsif include_label
-          _label = label(field, _label_text) + '<br />'
+          _label = label(field, _label_text) + @template.tag('br')
         end
       end
 
       if options[:inline_label] # Handle inline labels, e.g. for checkboxes
-        _inline_label = label(field, options.delete(:inline_label), :class => 'inline') + '<br style="clear: both;" />'
+        _inline_label = label(field, options.delete(:inline_label), :class => 'inline') + @template.tag('br', :style => 'clear: both;')
       end
 
       _field = nil
