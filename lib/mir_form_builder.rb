@@ -115,10 +115,16 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
       # capture first hash as options
       options = args.detect{ |a| a.is_a?(Hash) } || {}
       args.delete(options)
+
+      # capture second hash as HTML options
+      html_options = args.detect{ |a| a.is_a?(Hash) } || {}
+      args.delete(html_options)
+
       include_label = true
 
       RAILS_DEFAULT_LOGGER.debug "  Choices: #{choices.inspect}"
       RAILS_DEFAULT_LOGGER.debug "  Options: #{options.inspect}"
+      RAILS_DEFAULT_LOGGER.debug "  HTML options: #{html_options.inspect}"
       RAILS_DEFAULT_LOGGER.debug "  Remaining arguments: #{args.inspect}"
 
       if options[:label].nil? # Not specified. Default to humanized version of field id.
@@ -147,8 +153,10 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
 
       _field = nil
 
-      if name.include? 'select'
-        _field = super(field, choices, options)
+      if name == 'select'
+        _field = super(field, choices, options, html_options)
+      elsif name.include? 'select'
+        _field = super(field, options, html_options)
       else
         if name == 'radio_button'
           # invert arguments
