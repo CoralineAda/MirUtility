@@ -70,8 +70,8 @@ class ActionController::Base
   end
 
   # Returns a sanitized direction parameter suitable for SQL order-by clauses.
-  def sanitize_dir_param
-    sanitize_params params && params[:dir], ['ASC', 'DESC'], 'ASC'
+  def sanitize_dir_param(default='ASC')
+    sanitize_params params && params[:dir], ['ASC', 'DESC'], default
   end
 
   # Use this method to prevent SQL injection vulnerabilities by verifying that a user-provided
