@@ -23,6 +23,12 @@ module MirUtility
     (url + '/').gsub(/\/\/$/,'/')
   end
 
+  def self.destroy_old_sessions
+    ActiveRecord::SessionStore::Session.destroy_all(
+      ['updated_at < ?', 1.day.ago.utc]
+    )
+  end
+
   # When Slug.normalize just isn't good enough...
   def self.normalize_slug(text)
     _normalized = Slug.normalize(text)
