@@ -246,30 +246,21 @@ module ApplicationHelper
   # <td class="crud_links"><%= crud_links(my_model, 'my_model', [:show, :edit, :delete]) -%></td>
   #
   def crud_links(model, instance_name, actions, args={})
-    _html = ""
-    _options = args.keys.empty? ? '' : ", #{args.map{|k,v| ":#{k} => #{v}"}}"
+    _html = ''
+    _path = args.delete(:path) || model
+    _edit_path = args.delete(:edit_path) || eval("edit_#{instance_name}_path(model)")
+    _options = args.empty? ? '' : ", #{args.map{|k,v| ":#{k} => #{v}"}}"
 
     if use_crud_icons
-      if actions.include?(:show)
-        _html << eval("link_to image_tag('/images/icons/view.png', :class => 'crud_icon'), model, :title => 'View'#{_options}")
-      end
-      if actions.include?(:edit)
-        _html << eval("link_to image_tag('/images/icons/edit.png', :class => 'crud_icon'), edit_#{instance_name}_path(model), :title => 'Edit'#{_options}")
-      end
-      if actions.include?(:delete)
-        _html << eval("link_to image_tag('/images/icons/delete.png', :class => 'crud_icon'), model, :confirm => 'Are you sure? This action cannot be undone.', :method => :delete, :title => 'Delete'#{_options}")
-      end
+      _html << link_to(image_tag('icons/view.png', :class => 'crud_icon', :width => 14, :height => 14), _path, :title => "View#{_options}") if actions.include?(:show)
+      _html << link_to(image_tag('icons/edit.png', :class => 'crud_icon', :width => 14, :height => 14), _edit_path, :title => "Edit#{_options}") if actions.include?(:edit)
+      _html << link_to(image_tag('icons/delete.png', :class => 'crud_icon', :width => 14, :height => 14), _path, :confirm => 'Are you sure? This action cannot be undone.', :method => :delete, :title => "Delete#{_options}") if actions.include?(:delete)
     else
-      if actions.include?(:show)
-        _html << eval("link_to 'View', model, :title => 'View', :class => 'crud_link'#{_options}")
-      end
-      if actions.include?(:edit)
-        _html << eval("link_to 'Edit', edit_#{instance_name}_path(model), :title => 'Edit', :class => 'crud_link'#{_options}")
-      end
-      if actions.include?(:delete)
-        _html << eval("link_to 'Delete', model, :confirm => 'Are you sure? This action cannot be undone.', :method => :delete, :title => 'Delete', :class => 'crud_link'#{_options}")
-      end
+      _html << link_to('View', _path, :title => 'View', :class => "crud_link#{_options}") if actions.include?(:show)
+      _html << link_to('Edit', _edit_path, :title => 'Edit', :class => "crud_link#{_options}") if actions.include?(:edit)
+      _html << link_to('Delete', _path, :confirm => 'Are you sure? This action cannot be undone.', :method => :delete, :title => 'Delete', :class => "crud_link#{_options}") if actions.include?(:delete)
     end
+
     _html
   end
 
@@ -280,21 +271,7 @@ module ApplicationHelper
   # <td class="crud_links"><%= crud_links_for_nested_resource(@my_model, my_nested_model, 'my_model', 'my_nested_model', [:show, :edit, :delete]) -%></td>
   #
   def crud_links_for_nested_resource(model, nested_model, model_instance_name, nested_model_instance_name, actions, args={})
-    _html = ""
-    if use_crud_icons
-      if actions.include?(:show)
-        _html << eval("link_to image_tag('/images/icons/view.png', :class => 'crud_icon'), #{model_instance_name}_#{nested_model_instance_name}_path(model, nested_model), :title => 'View'")
-      end
-
-      if actions.include?(:edit)
-        _html << eval("link_to image_tag('/images/icons/edit.png', :class => 'crud_icon'), edit_#{model_instance_name}_#{nested_model_instance_name}_path(model, nested_model), :title => 'Edit'")
-      end
-
-      if actions.include?(:delete)
-        _html << eval("link_to image_tag('/images/icons/delete.png', :class => 'crud_icon'), #{model_instance_name}_#{nested_model_instance_name}_path(model, nested_model), :method => :delete, :confirm => 'Are you sure? This action cannot be undone.', :title => 'Delete'")
-      end
-    end
-    _html
+    crud_links model, model_instance_name, actions, args.merge(:edit_path => eval("edit_#{model_instance_name}_#{nested_model_instance_name}_path(model, nested_model)"), :path => [model, nested_model])
   end
 
   # DRY way to return a legend tag that renders correctly in all browsers. This variation allows
