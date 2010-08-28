@@ -222,6 +222,7 @@ module ApplicationHelper
 
   # Formats an array with HTML line breaks, or the specified delimiter.
   def array_to_lines(array, delimiter = '<br />')
+    return unless array.is_a?(Array)
     array.blank? ? nil : array * delimiter
   end
 
