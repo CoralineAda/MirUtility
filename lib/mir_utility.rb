@@ -249,7 +249,7 @@ module ApplicationHelper
   def crud_links(model, instance_name, actions, args={})
     _html = ''
     _path = args.delete(:path) || model
-    _edit_path = args.delete(:edit_path) || eval("edit_#{instance_name}_path(model)")
+    _edit_path = args.delete(:edit_path) || eval("edit_#{instance_name}_path(model)") if actions.include?(:edit)
     _options = args.empty? ? '' : ", #{args.map{|k,v| ":#{k} => #{v}"}}"
 
     if use_crud_icons
