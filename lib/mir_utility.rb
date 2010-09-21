@@ -87,7 +87,7 @@ class ActionController::Base
   # Returns the value if allowed, otherwise the default.
   def sanitize_params(supplied='', allowed=[], default=nil)
     raise ArgumentError, "A default value is required." unless default
-    return default if supplied.blank? || allowed.blank? || ! allowed.include?(supplied)
+    return default.to_s if supplied.blank? || allowed.blank? || ! allowed.map{ |x| x.to_s }.include?(supplied.to_s)
     return supplied
   end
 end
