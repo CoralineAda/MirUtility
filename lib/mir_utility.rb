@@ -189,7 +189,7 @@ class ActiveRecord::Base
   end
 
   def self.to_option_values
-    self.all.map{ |_x| [_x.name, _x.id] }
+    self.all.sort_by{ |x| x.name }.map{ |x| [x.name, x.id] }
   end
 
   # Strips the specified attribute's value.
