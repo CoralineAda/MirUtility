@@ -249,7 +249,7 @@ module ApplicationHelper
   def crud_links(model, instance_name, actions, args={})
     _html = ''
     _path = args.delete(:path) || model
-    _edit_path = args.delete(:edit_path) || eval("edit_#{instance_name}_path(model)")
+    _edit_path = args.delete(:edit_path) || eval("edit_#{instance_name}_path(model)") if actions.include?(:edit)
     _options = args.empty? ? '' : ", #{args.map{|k,v| ":#{k} => #{v}"}}"
 
     if use_crud_icons
@@ -292,8 +292,48 @@ module ApplicationHelper
   end
 
   # DRY way to return a legend tag that renders correctly in all browsers
+  #
+  # Sample usage:
+  #
+  #   <%= legend_tag "Report Criteria" -%>
+  #
+  # Sample usage with help text:
+  #
+  #   <%= legend_tag "Report Criteria", :help => "Some descriptive copy here." -%>
+  #     <span id="hide_or_show_backlinks" class="show_link" style="background-color: #999999;
+  #     border: 1px solid #999999;" onclick="javascript:hide_or_show('backlinks');"></span>Backlinks (<%=
+  #     @google_results.size -%>)
+  #   <%- end -%>
+  #
+  # Recommended CSS to support display of help icon and text:
+  #
+  #     .help_icon {
+  #       display: block;
+  #       float: left;
+  #       margin-top: -16px;
+  #       margin-left: 290px;
+  #       border-left: 1px solid #444444;
+  #       padding: 3px 6px;
+  #       cursor: pointer;
+  #     }
+  #     
+  #     div.popup_help {
+  #       color: #666666;
+  #       width: 98%;
+  #       background: #ffffff;
+  #       padding: 1em;
+  #       border: 1px solid #999999;
+  #       margin: 1em 0em;
+  #     }
+  #     
   def legend_tag(text, args={})
-    _html = %{<div id="#{args[:id]}" class="faux_legend">#{text}</div>\r}
+    args[:id] ||= text.downcase.gsub(/ /,'_')
+    if args[:help]
+      _html = %{<div id="#{args[:id]}" class="faux_legend">#{text}<span class="help_icon" onclick="$('#{args[:id]}_help').toggle();">?</span></div>\r}
+      _html << %{<div id="#{args[:id]}_help" class="popup_help" style="display: none;">#{args[:help]}<br /></div>\r}
+    else
+      _html = %{<div id="#{args[:id]}" class="faux_legend">#{text}</div>\r}
+    end
     _html.gsub!(/ id=""/,'')
     _html.gsub!(/ class=""/,'')
     _html
