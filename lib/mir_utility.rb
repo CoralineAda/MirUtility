@@ -316,7 +316,7 @@ module ApplicationHelper
   #       padding: 3px 6px;
   #       cursor: pointer;
   #     }
-  #     
+  #
   #     div.popup_help {
   #       color: #666666;
   #       width: 98%;
@@ -325,7 +325,7 @@ module ApplicationHelper
   #       border: 1px solid #999999;
   #       margin: 1em 0em;
   #     }
-  #     
+  #
   def legend_tag(text, args={})
     args[:id] ||= text.downcase.gsub(/ /,'_')
     if args[:help]
@@ -407,15 +407,21 @@ module ApplicationHelper
   #
   def select_tag_for_filter(model, filters, params)
     return unless model && ! filters.blank?
+
+    # capture and delete previous show param
+    _old_show = params.delete :show
+
     _html = %{<label for="show">Show:</label><br /><select name="show" id="show" onchange="window.location='#{eval("#{model}_url")}?#{params.to_params}&show=' + this.value">}
+
+    # restore previous show param
+    params[:show] = _old_show
 
     filters.each do |pair|
       _html = %{#{_html}<option value="#{pair[:scope]}"}
-      if params[:show] == pair[:scope] || (params[:show].blank? && pair[:scope] == "all")
-        _html = %{#{_html} selected="selected"}
-      end
+      _html = %{#{_html} selected="selected"} if params[:show] == pair[:scope]
       _html = %{#{_html}>#{pair[:label]}</option>}
     end
+
     _html = %{#{_html}</select>}
   end
 
