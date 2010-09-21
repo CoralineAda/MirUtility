@@ -405,21 +405,18 @@ module ApplicationHelper
   #       ...
   #     end
   #
-  def select_tag_for_filter(model, nvpairs, params)
-    return unless model && nvpairs && ! nvpairs.empty?
-    options = { :query => params[:query] }
-    _url = url_for(eval("#{model}_url(options)"))
-    _html = %{<label for="show">Show:</label><br />}
-    _html << %{<select name="show" id="show" onchange="window.location='#{_url}' + '?show=' + this.value">}
-    nvpairs.each do |pair|
-      _html << %{<option value="#{pair[:scope]}"}
-      if params[:show] == pair[:scope] || ((params[:show].nil? || params[:show].empty?) && pair[:scope] == "all")
-        _html << %{ selected="selected"}
+  def select_tag_for_filter(model, filters, params)
+    return unless model && ! filters.blank?
+    _html = %{<label for="show">Show:</label><br /><select name="show" id="show" onchange="window.location='#{eval("#{model}_url")}?#{params.to_params}&show=' + this.value">}
+
+    filters.each do |pair|
+      _html = %{#{_html}<option value="#{pair[:scope]}"}
+      if params[:show] == pair[:scope] || (params[:show].blank? && pair[:scope] == "all")
+        _html = %{#{_html} selected="selected"}
       end
-      _html << %{>#{pair[:label]}}
-      _html << %{</option>}
+      _html = %{#{_html}>#{pair[:label]}</option>}
     end
-    _html << %{</select>}
+    _html = %{#{_html}</select>}
   end
 
   # Returns a link_to tag with sorting parameters that can be used with ActiveRecord.order_by.
@@ -444,7 +441,7 @@ module ApplicationHelper
     end
 
     options = {
-      :anchor => html_options[:anchor] || nil,
+      :anchor => html_options[:anchor],
       :by => field,
       :dir => dir,
       :query => params[:query],
