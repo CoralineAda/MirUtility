@@ -411,7 +411,7 @@ module ApplicationHelper
     # capture and delete previous show param
     _old_show = params.delete :show
 
-    _html = %{<label for="show">Show:</label><br /><select name="show" id="show" onchange="window.location='#{eval("#{model}_url")}?#{params.to_params}&show=' + this.value">}
+    _html = %{Show&nbsp;&nbsp;<select name="show" id="show" onchange="window.location='#{eval("#{model}_url")}?#{params.to_params}&show=' + this.value">}
 
     # restore previous show param
     params[:show] = _old_show
