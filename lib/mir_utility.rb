@@ -23,9 +23,9 @@ module MirUtility
     (url + '/').gsub(/\/\/$/,'/')
   end
 
-  def self.destroy_old_sessions
+  def self.destroy_old_sessions( timestamp )
     ActiveRecord::SessionStore::Session.destroy_all(
-      ['updated_at < ?', lambda{1.day.ago.utc}.call]
+      ['updated_at < ?', timestamp]
     )
   end
 
