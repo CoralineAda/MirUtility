@@ -162,7 +162,7 @@ class MirFormBuilder < ActionView::Helpers::FormBuilder
           # invert arguments
           _field = super(field, args, options)
         else
-          _field = args.blank? ? super(field, options) : super(field, options, args)
+          _field = args.compact.blank? ? super(field, options) : super(field, options, args)
         end
       end
 
