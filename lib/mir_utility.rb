@@ -29,9 +29,21 @@ module MirUtility
     )
   end
 
-  # When Slug.normalize just isn't good enough...
+  # Copied from FriendlyId 2.2.7 for backward compatibility. Use gem's default behavior instead: http://github.com/norman/friendly_id.
+  def self.normalize(slug_text)
+    return "" if slug_text.nil? || slug_text == ""
+    ActiveSupport::Multibyte.proxy_class.new(slug_text.to_s).normalize(:kc).
+      gsub(/[\W]/u, ' ').
+      strip.
+      gsub(/\s+/u, '-').
+      gsub(/-\z/u, '').
+      downcase.
+      to_s
+  end
+
   def self.normalize_slug(text)
-    _normalized = Slug.normalize(text)
+    warn "[DEPRECATION] `MirUtility.normalize_slug` is deprecated. Use FriendlyId's default behavior instead: http://github.com/norman/friendly_id."
+    _normalized = MirUtility.normalize(text)
     _normalized.gsub!('-', '_')    # change - to _
     _normalized.gsub!(/[_]+/, '_') # truncate multiple _
     _normalized
